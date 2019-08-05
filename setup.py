@@ -17,7 +17,7 @@ setup(
         for fn in ('README.md', 'CHANGELOG.md', 'CONTRIBUTING.md', 'AUTHORS.md')
     ),
     long_description_content_type='text/markdown',
-    keywords=['mkdocs', 'plugin', 'jupyter', 'notebook', 'markdown', 'nbconvert'],
+    keywords='mkdocs mkdocs-plugin jupyter-notebook markdown nbconvert'.split(),
     python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
     install_requires=[
         'mkdocs<2.0,>=1.0.4',
