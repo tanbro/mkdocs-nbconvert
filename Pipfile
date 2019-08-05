@@ -7,5 +7,6 @@ verify_ssl = true
 autopep8 = "*"
 
 [packages]
+mkdocs-nbconvert = {editable = true,path = "."}
 
 [requires]
