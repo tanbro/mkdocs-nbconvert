@@ -14,7 +14,12 @@ setup(
     url='https://github.com/tanbro/mkdocs-nbconvert',
     long_description=(os.linesep*2).join(
         io.open(fn, encoding='UTF8').read()
-        for fn in ('README.md', 'CHANGELOG.md', 'CONTRIBUTING.md', 'AUTHORS.md')
+        for fn in [
+            'README.md',
+            'CHANGELOG.md',
+            'CONTRIBUTING.md',
+            'AUTHORS.md',
+        ]
     ),
     long_description_content_type='text/markdown',
     keywords='mkdocs mkdocs-plugin jupyter-notebook markdown nbconvert'.split(),

@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 autopep8 = "*"
+jupyter = "*"
 
 [packages]
 mkdocs-nbconvert = {editable = true,path = "."}
