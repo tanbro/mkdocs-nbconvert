@@ -1,0 +1,11 @@
+site_name: MkDocs-nbconvert
+
+plugins:
+  - nbconvert:
+      input_dir: ../notebooks
+
+nav:
+  - README: README.md
+  - Notebooks:
+    - Installation: notebooks/installation.md
+    - Usage: notebooks/usage.md

@@ -1,3 +1,0 @@
-autopep8
-jupyter
--e .

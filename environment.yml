@@ -3,10 +3,12 @@ channels:
   - default
   - conda-forge
 dependencies:
+  - python
   - pip
-  - autopep8
   - jupyter
+  - ipywidgets
+  - nb_conda
   - mkdocs
   - nbconvert
-  - pip:
-    - -e ./
+  - autopep8
+
