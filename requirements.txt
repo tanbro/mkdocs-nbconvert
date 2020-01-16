@@ -1,0 +1,10 @@
+mkdocs
+jupyter
+nbconvert
+wheel
+twine
+coverage
+pytest
+autopep8
+pylint
+requests

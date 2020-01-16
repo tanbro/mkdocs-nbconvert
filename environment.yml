@@ -1,0 +1,14 @@
+name: mkdocs_nbconvert-dev
+channels:
+  - default
+  - conda-forge
+dependencies:
+  - python
+  - pip
+  - jupyter
+  - ipywidgets
+  - nb_conda
+  - mkdocs
+  - nbconvert
+  - autopep8
+

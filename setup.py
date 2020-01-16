@@ -13,16 +13,15 @@ setup(
     description='A MkDocs plug-in provides a source parser for *.ipynb files',
     url='https://github.com/tanbro/mkdocs-nbconvert',
     long_description=(os.linesep*2).join(
-        io.open(fn, encoding='UTF8').read()
-        for fn in ('README.md', 'CHANGELOG.md', 'CONTRIBUTING.md', 'AUTHORS.md')
+        io.open(s, encoding='UTF8').read()
+        for s in ('README.md', 'CHANGELOG.md', 'CONTRIBUTING.md', 'AUTHORS.md')
     ),
     long_description_content_type='text/markdown',
-    keywords=['mkdocs', 'plugin', 'jupyter', 'notebook', 'markdown', 'nbconvert'],
+    keywords='mkdocs mkdocs-plugin jupyter-notebook markdown nbconvert'.split(),
     python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
     install_requires=[
-        'mkdocs<2.0,>=1.0.4',
-        'nbconvert<6.0,>=5.0',
-        'nbformat',
+        'mkdocs',
+        'nbconvert',
     ],
     entry_points={
         'mkdocs.plugins': [
@@ -37,10 +36,7 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3'
     ],
     setup_requires=[
         'setuptools_scm',
