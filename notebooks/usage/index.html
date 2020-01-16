@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Usage - MkDocs-nbconvert</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../..">MkDocs-nbconvert</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="../..">README</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notebooks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="../installation/">Installation</a>
+</li>
+                                    
+<li class="active">
+    <a href="./">Usage</a>
+</li>
+                                    
+<li >
+    <a href="../display_image/">Display Image</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                            <li >
+                                <a rel="next" href="../installation/">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li >
+                                <a rel="prev" href="../display_image/">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#usage">Usage</a></li>
+            <li><a href="#mkdocs-configration">mkdocs configration</a></li>
+            <li><a href="#nav">Nav</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="usage">Usage</h1>
+<h2 id="mkdocs-configration">mkdocs configration</h2>
+<p>Add the plugin into configration's <code>plugins</code> attribute</p>
+<pre><code class="yaml">plugins:
+    - nbconvert
+</code></pre>
+
+<h3 id="options">Options</h3>
+<ul>
+<li><code>input_dir</code>: Directory where to scan <code>*.ipynb</code> files</li>
+</ul>
+<p>Either absolute or relative path.
+  When relative, it's from <code>mkdocs</code> configuration file's directory.</p>
+<p>When omited, default value is <code>notebooks</code></p>
+<ul>
+<li><code>output_dir</code>: Export notebook files to markdown files in the directory.</li>
+</ul>
+<p>It <strong>MUST</strong> be a <strong>relative</strong> path from <code>doc_dir</code></p>
+<p>When omited, default value is <code>notebooks</code></p>
+<ul>
+<li><code>recursive</code>: Whether scan <code>*.ipynb</code> files in subdirectories recursively</li>
+</ul>
+<p>When omited, default value is <code>false</code></p>
+<p>Only availble for Python&gt;=3.5</p>
+<p>Options can be add to configuration file as below:</p>
+<pre><code class="yaml">plugins:
+    - nbconvert:
+         input_dir: /path/of/notebooks/directory/
+         recursive: true
+         output_dir: nb
+</code></pre>
+
+<h2 id="nav">Nav</h2>
+<p>In <code>nav</code> section, add <code>*.ipynb</code> files as normal markdown files with replace ext name from <code>ipynb</code> to <code>md</code>, since it's converted to markdown in <code>output_dir</code>.</p>
+<p>Eg:</p>
+<p>This project's file structure is:</p>
+<pre><code class="sh">$ tree -L 2
+.
+├── AUTHORS.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── docs
+│   ├── notebooks
+│   └── README.md -&gt; ../README.md
+├── environment.yml
+├── examples
+├── LICENSE
+├── mkdocs.yml
+├── notebooks
+│   ├── display_image.ipynb
+│   ├── installation.ipynb
+│   └── usage.ipynb
+├── README.md
+├── requirements.txt
+├── setup.py
+├── site
+│   ├── 404.html
+│   ├── css
+│   ├── fonts
+│   ├── img
+│   ├── index.html
+│   ├── js
+│   ├── notebooks
+│   ├── sitemap.xml
+│   └── sitemap.xml.gz
+└── src
+    ├── mkdocs_nbconvert
+    └── mkdocs_nbconvert.egg-info
+</code></pre>
+
+<p>Content of <code>mkdocs.yml</code> is:</p>
+<pre><code class="yaml">site_name: MkDocs-nbconvert
+
+plugins:
+  - nbconvert:
+      input_dir: ../notebooks
+
+nav:
+  - README: README.md
+  - Notebooks:
+    - Installation: notebooks/installation.md
+    - Usage: notebooks/usage.md
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+
+        <div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
