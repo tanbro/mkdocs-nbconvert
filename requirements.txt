@@ -7,3 +7,4 @@ coverage
 pytest
 autopep8
 pylint
+requests

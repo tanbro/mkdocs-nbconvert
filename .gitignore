@@ -1,7 +1,6 @@
 # My ignores
 *.lock
 src/**/version.py
-site/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
