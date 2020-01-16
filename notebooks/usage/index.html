@@ -127,19 +127,23 @@
 </code></pre>
 
 <h2 id="nav">Nav</h2>
-<p>In <code>nav</code> section, add <code>*.ipynb</code> files as normal markdown files with replace ext name from <code>ipynb</code> to <code>md</code>, since it's converted to markdown in <code>output_dir</code>.</p>
+<p>In <code>nav</code> section, add <code>*.ipynb</code> files as normal markdown files with replacing extension <code>*.ipynb</code> to <code>*.md</code>, since they're converted to markdown into <code>output_dir</code>.</p>
 <p>Eg:</p>
-<p>This project's file structure is:</p>
+<p>The project's file structure is:</p>
 <pre><code class="sh">$ tree -L 2
 .
 ├── AUTHORS.md
+├── build
+│   ├── bdist.linux-x86_64
+│   └── lib
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
+├── dist
+│   ├── mkdocs_nbconvert-0.1-py3-none-any.whl
+│   └── mkdocs-nbconvert-0.1.tar.gz
 ├── docs
-│   ├── notebooks
 │   └── README.md -&gt; ../README.md
 ├── environment.yml
-├── examples
 ├── LICENSE
 ├── mkdocs.yml
 ├── notebooks
@@ -159,9 +163,12 @@
 │   ├── notebooks
 │   ├── sitemap.xml
 │   └── sitemap.xml.gz
-└── src
-    ├── mkdocs_nbconvert
-    └── mkdocs_nbconvert.egg-info
+├── src
+│   ├── mkdocs_nbconvert
+│   └── mkdocs_nbconvert.egg-info
+├── static
+│   └── img_01.jpeg
+└── .venv
 </code></pre>
 
 <p>Content of <code>mkdocs.yml</code> is:</p>
@@ -169,13 +176,18 @@
 
 plugins:
   - nbconvert:
-      input_dir: ../notebooks
+      input_dir: notebooks
+      output_dir: notebooks
 
 nav:
   - README: README.md
   - Notebooks:
-    - Installation: notebooks/installation.md
-    - Usage: notebooks/usage.md
+    - notebooks/installation.md
+    - notebooks/usage.md
+    - notebooks/display_image.md
+</code></pre>
+
+<pre><code class="python">
 </code></pre></div>
         </div>
 
