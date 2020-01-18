@@ -12,6 +12,10 @@ setup(
     license='MIT',
     description='A MkDocs plug-in provides a source parser for *.ipynb files',
     url='https://github.com/tanbro/mkdocs-nbconvert',
+    project_urls={
+        "Documentation": "https://tanbro.github.io/mkdocs-nbconvert/",
+        "Source Code": "https://github.com/tanbro/mkdocs-nbconvert",
+    },
     long_description=(os.linesep*2).join(
         io.open(s, encoding='UTF8').read()
         for s in ('README.md', 'CHANGELOG.md', 'CONTRIBUTING.md', 'AUTHORS.md')

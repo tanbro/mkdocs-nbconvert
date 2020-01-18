@@ -1,13 +1,34 @@
 site_name: MkDocs-nbconvert
-
-plugins:
-  - nbconvert:
-      input_dir: notebooks
-      output_dir: notebooks
+repo_url: https://github.com/tanbro/mkdocs-nbconvert
 
 nav:
   - README: README.md
   - Notebooks:
     - notebooks/installation.md
     - notebooks/usage.md
-    - notebooks/display_image.md
+    - notebooks/image.md
+    - notebooks/matplotlib.md
+    - notebooks/bokeh.md
+
+plugins:
+  - nbconvert:
+      input_dir: notebooks
+      output_dir: notebooks
+
+theme:
+    name: material
+
+markdown_extensions:
+    - abbr:
+    - admonition:
+    - attr_list:
+    - codehilite:
+        guess_lang: False
+        linenums: True
+    - def_list:
+    - footnotes:
+    - meta:
+    - sane_lists:
+    - smarty:
+    - toc:
+        permalink: True

@@ -7,4 +7,8 @@ coverage
 pytest
 autopep8
 pylint
+matplotlib
 requests
+pygments
+pymdown-extensions
+mkdocs-material
