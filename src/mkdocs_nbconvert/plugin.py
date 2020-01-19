@@ -67,13 +67,13 @@ class NbConvertPlugin(BasePlugin):
             #
             logger.debug('nbconvert: markdown export %s => %s', nb_path, md_path)
             # run nbconvert
-            with open(nb_path) as fp:
+            with open(nb_path, encoding='utf-8') as fp:
                 nb_node = nbformat.read(fp, nbformat.NO_CONVERT)
             body, resources = md_exporter.from_notebook_node(nb_node)
             # save exported
             if not os.path.exists(md_dir):
                 os.makedirs(md_dir)
-            with open(md_path, 'w', encoding='UTF8') as fp:
+            with open(md_path, 'w', encoding='utf-8') as fp:
                 fp.write(body)
             file_obj = File(
                 path=md_rel_path,
