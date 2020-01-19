@@ -8,7 +8,6 @@ nav:
     - notebooks/usage.md
     - notebooks/image.md
     - notebooks/matplotlib.md
-    - notebooks/bokeh.md
 
 plugins:
   - nbconvert:
