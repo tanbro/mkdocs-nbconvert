@@ -1,3 +1,4 @@
+import io
 import logging
 import os
 import shutil
@@ -30,10 +31,11 @@ class NbConvertPlugin(BasePlugin):
     )
 
     def __init__(self, *args, **kwargs):
-        self._logger = logging.getLogger('mkdocs.plugins.NbConvertPlugin')
+        self._logger = logging.getLogger((type(self).__name__))
         super(NbConvertPlugin, self).__init__(*args, **kwargs)
 
     def on_files(self, files, config):
+        # pylint:disable=too-many-locals
         logger = self._logger
         logger.info('nbconvert: plugin config=%s', pformat(self.config))
         # deal with dirs
@@ -48,11 +50,14 @@ class NbConvertPlugin(BasePlugin):
         # glob match
         glob_recursive = self.config['recursive'] if PYTHON_VERSION_MAJOR_MINOR >= '3.5' else False
         if glob_recursive:
-            nb_paths_iter = iglob(os.path.join(config_file_dir, input_dir, '**', '*.ipynb'), recursive=True)
+            nb_paths_iter = iglob(
+                os.path.join(config_file_dir, input_dir, '**', '*.ipynb'),
+                recursive=True
+            )
         else:
             nb_paths_iter = iglob(os.path.join(config_file_dir, input_dir, '*.ipynb'))
         # Exporter
-        md_exporter = MarkdownExporter()
+        exporter = MarkdownExporter()
         # Converting
         for nb_path in nb_paths_iter:
             # Prepare output file/dir
@@ -65,15 +70,18 @@ class NbConvertPlugin(BasePlugin):
             md_rel_dir = os.path.relpath(md_dir, config['docs_dir'])
             md_rel_path = os.path.join(md_rel_dir, md_basename)
             #
-            logger.debug('nbconvert: markdown export %s => %s', nb_path, md_path)
+            logger.debug(
+                'nbconvert: markdown export %s => %s',
+                nb_path, md_path
+            )
             # run nbconvert
-            with open(nb_path, encoding='utf-8') as fp:
+            with io.open(nb_path, encoding='utf-8') as fp:
                 nb_node = nbformat.read(fp, nbformat.NO_CONVERT)
-            body, resources = md_exporter.from_notebook_node(nb_node)
+            body, resources = exporter.from_notebook_node(nb_node)
             # save exported
             if not os.path.exists(md_dir):
                 os.makedirs(md_dir)
-            with open(md_path, 'w', encoding='utf-8') as fp:
+            with io.open(md_path, 'w', encoding='utf-8') as fp:
                 fp.write(body)
             file_obj = File(
                 path=md_rel_path,
@@ -87,15 +95,17 @@ class NbConvertPlugin(BasePlugin):
                 resource_src_path = os.path.join(resource_src_dir, resource_name)
                 if not os.path.isdir(resource_src_dir):
                     os.makedirs(resource_src_dir)
-                with open(resource_src_path, 'wb') as fp:
+                with io.open(resource_src_path, 'wb') as fp:
                     fp.write(resource_data)
                 resource_dest_dir = os.path.dirname(file_obj.abs_dest_path)
                 resource_dest_path = os.path.join(resource_dest_dir, resource_name)
-                logger.debug('nbconvert: resource output(%dBytes): resource_name --> %s',
-                             len(resource_data), resource_dest_path)
+                logger.debug(
+                    'nbconvert: resource output(%dBytes): resource_name --> %s',
+                    len(resource_data), resource_dest_path
+                )
                 if not os.path.isdir(resource_dest_dir):
                     os.makedirs(resource_dest_dir)
-                with open(resource_dest_path, 'wb') as fp:
+                with io.open(resource_dest_path, 'wb') as fp:
                     fp.write(resource_data)
 
             logger.debug(
@@ -105,9 +115,14 @@ class NbConvertPlugin(BasePlugin):
             files.append(file_obj)
         return files
 
-    def on_post_build(self, config):  # pylint:disable=unused-argument
+    def on_post_build(self, config):
+        logger = self._logger
         output_dir = os.path.join(
             config['docs_dir'],
             os.path.normpath(self.config['output_dir'])
+        )
+        logger.debug(
+            'nbconvert: rmtree %s',
+            output_dir
         )
         shutil.rmtree(output_dir)
