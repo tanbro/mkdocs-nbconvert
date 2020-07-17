@@ -120,7 +120,7 @@ class NbConvertPlugin(BasePlugin):
             config['docs_dir'],
             os.path.normpath(self.config['output_dir'])
         )
-        self._logger.debug(
+        logger.debug(
             'nbconvert: rmtree %s',
             output_dir
         )
