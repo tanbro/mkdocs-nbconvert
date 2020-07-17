@@ -7,6 +7,8 @@
 
 A [MkDocs][] plug-in that provides a source parser for `*.ipynb` [Jupyter][] Notebook files.
 
+## Features
+
 - doc: <https://tanbro.github.io/mkdocs-nbconvert/>
 - ref: <https://www.mkdocs.org/user-guide/plugins/>
 

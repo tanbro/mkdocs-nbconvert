@@ -11,4 +11,8 @@ dependencies:
   - mkdocs
   - nbconvert
   - autopep8
-
+  - requests
+  - matplotlib
+  - pygments
+  - pymdown-extensions
+  - mkdocs-material
