@@ -34,7 +34,7 @@ class NbConvertPlugin(BasePlugin):
         self._logger = logging.getLogger((type(self).__name__))
         super(NbConvertPlugin, self).__init__(*args, **kwargs)
 
-    def on_files(self, files, config, **kwargs):  # pylint:disable=unused-argument
+    def on_files(self, files, config, **kwargs):  # pylint:disable=unused-argument,too-many-locals
         logger = self._logger
         logger.info('nbconvert: plugin config=%s', pformat(self.config))
         # deal with dirs
