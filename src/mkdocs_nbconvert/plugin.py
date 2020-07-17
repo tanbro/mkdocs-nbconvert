@@ -33,7 +33,7 @@ class NbConvertPlugin(BasePlugin):
         self._logger = logging.getLogger('mkdocs.plugins.NbConvertPlugin')
         super(NbConvertPlugin, self).__init__(*args, **kwargs)
 
-    def on_files(self, files, config):
+    def on_files(self, files, config, **kwargs):
         logger = self._logger
         logger.info('nbconvert: plugin config=%s', pformat(self.config))
         # deal with dirs
@@ -105,7 +105,7 @@ class NbConvertPlugin(BasePlugin):
             files.append(file_obj)
         return files
 
-    def on_post_build(self, config):  # pylint:disable=unused-argument
+    def on_post_build(self, config, **kwargs):  # pylint:disable=unused-argument
         output_dir = os.path.join(
             config['docs_dir'],
             os.path.normpath(self.config['output_dir'])
