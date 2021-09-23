@@ -4,37 +4,68 @@ repo_url: https://github.com/tanbro/mkdocs-nbconvert
 use_directory_urls: false
 
 nav:
-  - README: README.md
-  - Notebooks:
-    - notebooks/installation.md
-    - notebooks/usage.md
-    - notebooks/image.md
-    - notebooks/matplotlib.md
+    - README: README.md
+    - Notebooks:
+          - notebooks/installation.md
+          - notebooks/usage.md
+          - notebooks/image.md
+          - notebooks/matplotlib.md
 
 plugins:
-  - pdf-export:
-      verbose: true
-      media_type: print
-      combined: true
-      enabled_if_env: ENABLE_PDF_EXPORT
-  - nbconvert:
-      input_dir: notebooks
-      output_dir: notebooks
+    - search
+    - with-pdf:
+          enabled_if_env: ENABLE_PDF_EXPORT
+    - nbconvert:
+          input_dir: notebooks
+          output_dir: notebooks
 
 theme:
     name: material
+    features:
+        - navigation.sections
+        - navigation.tabs
+        - navigation.top
+    palette:
+        - media: "(prefers-color-scheme: light)"
+          scheme: default
+          toggle:
+              icon: material/weather-night
+              name: switch to dark mode 🌙
+        - media: "(prefers-color-scheme: dark)"
+          scheme: slate
+          primary: light blue
+          accent: light blue
+          toggle:
+              icon: material/weather-sunny
+              name: switch to light mode 🌞
 
 markdown_extensions:
-    - abbr:
-    - admonition:
-    - attr_list:
-    - codehilite:
-        guess_lang: False
-        linenums: True
-    - def_list:
-    - footnotes:
-    - meta:
-    - sane_lists:
-    - smarty:
+    - pymdownx.extra
+    ### pymdownx.extra replaces markdown.extensions.extra, Here is the full list of included extensions:
+    ## pymdownx.betterem
+    ## pymdownx.superfences
+    ## markdown.extensions.footnotes
+    ## markdown.extensions.attr_list
+    ## markdown.extensions.def_list
+    ## markdown.extensions.tables
+    ## markdown.extensions.abbr
+    ## markdown.extensions.md_in_html
+    - pymdownx.highlight
+    - pymdownx.details
+    - pymdownx.saneheaders
+    - pymdownx.smartsymbols
+    - pymdownx.critic:
+          mode: view
+    - pymdownx.snippets
+    - pymdownx.caret
+    - pymdownx.mark
+    - pymdownx.tilde
+    - pymdownx.smartsymbols
+    # Officially Supported Extensions
+    - admonition
+    - meta
+    # - sane_lists:
+    # - smarty:
     - toc:
-        permalink: True
+          permalink: true
+          slugify: !!python/name:pymdownx.slugs.uslugify

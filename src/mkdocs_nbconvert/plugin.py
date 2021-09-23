@@ -1,6 +1,5 @@
 import io
 import os
-import shutil
 import sys
 from glob import iglob
 from pprint import pformat
@@ -12,7 +11,7 @@ from mkdocs.structure.files import File
 from mkdocs.utils import log
 from nbconvert import MarkdownExporter
 
-PYTHON_VERSION_MAJOR_MINOR = '{}.{}'.format(*sys.version_info)
+PYTHON_VERSION_MAJOR_MINOR = '{0}.{1}'.format(*sys.version_info)
 
 
 class NbConvertPlugin(BasePlugin):
@@ -30,8 +29,9 @@ class NbConvertPlugin(BasePlugin):
         ),
     )
 
-    def on_files(self, files, config, **kwargs):  # pylint:disable=unused-argument,too-many-locals
+    def on_files(self, files, config, **kwargs):
         log.info('nbconvert: plugin config=%s', pformat(self.config))
+        self._src_files = []
         # deal with dirs
         config_file_dir = os.path.dirname(config['config_file_path'])
         input_dir = os.path.normpath(self.config['input_dir'])
@@ -91,11 +91,12 @@ class NbConvertPlugin(BasePlugin):
                     os.makedirs(resource_src_dir)
                 with io.open(resource_src_path, 'wb') as fp:
                     fp.write(resource_data)
+                self._src_files.append(resource_src_path)
                 resource_dest_dir = os.path.dirname(file_obj.abs_dest_path)
                 resource_dest_path = os.path.join(resource_dest_dir, resource_name)
                 log.debug(
-                    'nbconvert: resource output(%dBytes): resource_name --> %s',
-                    len(resource_data), resource_dest_path
+                    'nbconvert: resource output(%dBytes): %s => %s',
+                    len(resource_data), resource_name, resource_dest_path
                 )
                 if not os.path.isdir(resource_dest_dir):
                     os.makedirs(resource_dest_dir)
@@ -106,16 +107,20 @@ class NbConvertPlugin(BasePlugin):
                 'nbconvert: add file object<abs_src_path=%s abs_dest_path=%s url=%s>',
                 file_obj.abs_src_path, file_obj.abs_dest_path, file_obj.url
             )
+            self._src_files.append(file_obj.abs_src_path)
             files.append(file_obj)
         return files
 
-    def on_post_build(self, config, **kwargs):  # pylint:disable=unused-argument
+    def on_post_build(self, config, **kwargs):
+        for file in self._src_files:
+            log.debug('nbconvert: remove %s', file)
+            os.remove(file)
         output_dir = os.path.join(
             config['docs_dir'],
             os.path.normpath(self.config['output_dir'])
         )
-        log.info(
-            'nbconvert: rmtree %s',
-            output_dir
-        )
-        shutil.rmtree(output_dir)
+        log.debug('nbconvert: removedirs %s', output_dir)
+        try:
+            os.removedirs(output_dir)
+        except OSError as err:
+            log.warning('nbconvert: removedirs %s', err)
