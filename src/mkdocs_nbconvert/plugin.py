@@ -1,5 +1,4 @@
 import io
-import logging
 import os
 import shutil
 import sys
@@ -10,6 +9,7 @@ import nbformat
 from mkdocs.config import config_options
 from mkdocs.plugins import BasePlugin
 from mkdocs.structure.files import File
+from mkdocs.utils import log
 from nbconvert import MarkdownExporter
 
 PYTHON_VERSION_MAJOR_MINOR = '{}.{}'.format(*sys.version_info)
@@ -30,13 +30,8 @@ class NbConvertPlugin(BasePlugin):
         ),
     )
 
-    def __init__(self, *args, **kwargs):
-        self._logger = logging.getLogger((type(self).__name__))
-        super(NbConvertPlugin, self).__init__(*args, **kwargs)
-
     def on_files(self, files, config, **kwargs):  # pylint:disable=unused-argument,too-many-locals
-        logger = self._logger
-        logger.info('nbconvert: plugin config=%s', pformat(self.config))
+        log.info('nbconvert: plugin config=%s', pformat(self.config))
         # deal with dirs
         config_file_dir = os.path.dirname(config['config_file_path'])
         input_dir = os.path.normpath(self.config['input_dir'])
@@ -69,7 +64,7 @@ class NbConvertPlugin(BasePlugin):
             md_rel_dir = os.path.relpath(md_dir, config['docs_dir'])
             md_rel_path = os.path.join(md_rel_dir, md_basename)
             #
-            logger.debug(
+            log.debug(
                 'nbconvert: markdown export %s => %s',
                 nb_path, md_path
             )
@@ -98,7 +93,7 @@ class NbConvertPlugin(BasePlugin):
                     fp.write(resource_data)
                 resource_dest_dir = os.path.dirname(file_obj.abs_dest_path)
                 resource_dest_path = os.path.join(resource_dest_dir, resource_name)
-                logger.debug(
+                log.debug(
                     'nbconvert: resource output(%dBytes): resource_name --> %s',
                     len(resource_data), resource_dest_path
                 )
@@ -107,7 +102,7 @@ class NbConvertPlugin(BasePlugin):
                 with io.open(resource_dest_path, 'wb') as fp:
                     fp.write(resource_data)
 
-            logger.debug(
+            log.debug(
                 'nbconvert: add file object<abs_src_path=%s abs_dest_path=%s url=%s>',
                 file_obj.abs_src_path, file_obj.abs_dest_path, file_obj.url
             )
@@ -115,12 +110,11 @@ class NbConvertPlugin(BasePlugin):
         return files
 
     def on_post_build(self, config, **kwargs):  # pylint:disable=unused-argument
-        logger = self._logger
         output_dir = os.path.join(
             config['docs_dir'],
             os.path.normpath(self.config['output_dir'])
         )
-        logger.debug(
+        log.info(
             'nbconvert: rmtree %s',
             output_dir
         )
