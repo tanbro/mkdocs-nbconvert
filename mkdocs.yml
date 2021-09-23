@@ -1,6 +1,8 @@
 site_name: MkDocs-nbconvert
 repo_url: https://github.com/tanbro/mkdocs-nbconvert
 
+use_directory_urls: false
+
 nav:
   - README: README.md
   - Notebooks:
@@ -10,6 +12,11 @@ nav:
     - notebooks/matplotlib.md
 
 plugins:
+  - pdf-export:
+      verbose: true
+      media_type: print
+      combined: true
+      enabled_if_env: ENABLE_PDF_EXPORT
   - nbconvert:
       input_dir: notebooks
       output_dir: notebooks
