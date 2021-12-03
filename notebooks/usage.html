@@ -8,9 +8,8 @@
       
       
       
-      
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.8">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.0.3">
     
     
       
@@ -18,10 +17,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.92558b1b.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.62128196.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.9204c3b2.min.css">
         
       
     
@@ -31,14 +30,13 @@
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-    
+    <script>function __md_scope(e,t,_){return new URL(_||(t===localStorage?"..":".."),location).pathname+"."+e}function __md_get(e,t=localStorage,_){return JSON.parse(t.getItem(__md_scope(e,t,_)))}function __md_set(e,t,_=localStorage,o){try{_.setItem(__md_scope(e,_,o),JSON.stringify(t))}catch(e){}}</script>
     
       
-
 
     
     
@@ -55,9 +53,8 @@
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
-      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -74,7 +71,10 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+    
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../index.html" title="MkDocs-nbconvert" class="md-header__button md-logo" aria-label="MkDocs-nbconvert" data-md-component="logo">
       
@@ -129,8 +129,7 @@
       <label class="md-header__button md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
       </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
+      <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
@@ -162,8 +161,7 @@
     
     
       <div class="md-header__source">
-        
-<a href="https://github.com/tanbro/mkdocs-nbconvert/" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/tanbro/mkdocs-nbconvert/" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
@@ -175,6 +173,7 @@
       </div>
     
   </nav>
+  
 </header>
     
     <div class="md-container" data-md-component="container">
@@ -182,6 +181,7 @@
       
         
           
+            
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
@@ -219,6 +219,7 @@
     </ul>
   </div>
 </nav>
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -246,8 +247,7 @@
   </label>
   
     <div class="md-nav__source">
-      
-<a href="https://github.com/tanbro/mkdocs-nbconvert/" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/tanbro/mkdocs-nbconvert/" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
@@ -290,10 +290,14 @@
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
-      <label class="md-nav__link" for="__nav_2">
-        Notebooks
-        <span class="md-nav__icon md-icon"></span>
-      </label>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Notebooks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <nav class="md-nav" aria-label="Notebooks" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
@@ -302,6 +306,7 @@
         <ul class="md-nav__list" data-md-scrollfix>
           
             
+              
   
   
   
@@ -312,8 +317,10 @@
     </li>
   
 
+            
           
             
+              
   
   
     
@@ -337,6 +344,7 @@
       </a>
       
         
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -351,11 +359,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#mkdocs-configration" class="md-nav__link">
-    mkdocs configration
+  <a href="#mkdocs-configuration" class="md-nav__link">
+    mkdocs configuration
   </a>
   
-    <nav class="md-nav" aria-label="mkdocs configration">
+    <nav class="md-nav" aria-label="mkdocs configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -384,8 +392,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -396,8 +406,10 @@
     </li>
   
 
+            
           
             
+              
   
   
   
@@ -408,6 +420,7 @@
     </li>
   
 
+            
           
         </ul>
       </nav>
@@ -427,6 +440,7 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -441,11 +455,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#mkdocs-configration" class="md-nav__link">
-    mkdocs configration
+  <a href="#mkdocs-configuration" class="md-nav__link">
+    mkdocs configuration
   </a>
   
-    <nav class="md-nav" aria-label="mkdocs configration">
+    <nav class="md-nav" aria-label="mkdocs configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -479,14 +493,14 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/tanbro/mkdocs-nbconvert/edit/master/docs/notebooks/usage.md" title="Edit this page" class="md-content__button md-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-                  </a>
-                
-                
-                <h1 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h1>
-<h2 id="mkdocs-configration">mkdocs configration<a class="headerlink" href="#mkdocs-configration" title="Permanent link">&para;</a></h2>
-<p>Add the plugin into configration's <code>plugins</code> attribute</p>
+<a href="https://github.com/tanbro/mkdocs-nbconvert/edit/master/docs/notebooks/usage.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+<h1 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h1>
+<h2 id="mkdocs-configuration">mkdocs configuration<a class="headerlink" href="#mkdocs-configuration" title="Permanent link">&para;</a></h2>
+<p>Add the plugin into configuration's <code>plugins</code> attribute</p>
 <div class="highlight"><pre><span></span><code><span class="nt">plugins</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">nbconvert</span>
 </code></pre></div>
@@ -496,17 +510,17 @@
 </ul>
 <p>Either absolute or relative path.
   When relative, it's from <code>mkdocs</code> configuration file's directory.</p>
-<p>When omited, default value is <code>notebooks</code></p>
+<p>When omitted, default value is <code>notebooks</code></p>
 <ul>
 <li><code>output_dir</code>: Export notebook files to markdown files in the directory.</li>
 </ul>
 <p>It <strong>MUST</strong> be a <strong>relative</strong> path from <code>doc_dir</code></p>
-<p>When omited, default value is <code>notebooks</code></p>
+<p>When omitted, default value is <code>notebooks</code></p>
 <ul>
 <li><code>recursive</code>: Whether scan <code>*.ipynb</code> files in subdirectories recursively</li>
 </ul>
-<p>When omited, default value is <code>false</code></p>
-<p>Only availble for Python&gt;=3.5</p>
+<p>When omitted, default value is <code>false</code></p>
+<p>Only available for Python&gt;=3.5</p>
 <p>Options can be add to configuration file as below:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">plugins</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">nbconvert</span><span class="p">:</span>
@@ -516,70 +530,113 @@
 </code></pre></div>
 <h2 id="nav">Nav<a class="headerlink" href="#nav" title="Permanent link">&para;</a></h2>
 <p>In <code>nav</code> section, add <code>*.ipynb</code> files as normal markdown files with replacing extension <code>*.ipynb</code> to <code>*.md</code>, since they're converted to markdown into <code>output_dir</code>.</p>
-<p>Eg:</p>
-<p>The project's file structure is:</p>
-<div class="highlight"><pre><span></span><code>$ tree -L <span class="m">2</span>
-.
-├── AUTHORS.md
-├── build
-│   ├── bdist.linux-x86_64
-│   └── lib
+<p>For this project, it's directory structure is as below:</p>
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">tree</span> <span class="o">-</span><span class="n">L</span> <span class="mi">2</span> <span class="o">-</span><span class="n">I</span> <span class="n">venv</span> <span class="o">-</span><span class="n">I</span> <span class="n">venv</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>[01;34m.[00m
+├── [01;32mAUTHORS.md[00m
 ├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── dist
-│   ├── mkdocs_nbconvert-0.1-py3-none-any.whl
-│   └── mkdocs-nbconvert-0.1.tar.gz
-├── docs
-│   └── README.md -&gt; ../README.md
-├── environment.yml
-├── LICENSE
+├── [01;32mCONTRIBUTING.md[00m
+├── [01;34mdocs[00m
+│   └── [01;36mREADME.md[00m -&gt; ../README.md
+├── MANIFEST.in
 ├── mkdocs.yml
-├── notebooks
-│   ├── display_image.ipynb
-│   ├── installation.ipynb
-│   └── usage.ipynb
+├── [01;34mnotebooks[00m
+│   ├── image.ipynb
+│   ├── installation.ipynb
+│   ├── matplotlib.ipynb
+│   └── usage.ipynb
 ├── README.md
-├── requirements.txt
+├── [01;34mrequires[00m
+│   └── dev.txt
 ├── setup.py
-├── site
-│   ├── <span class="m">404</span>.html
-│   ├── css
-│   ├── fonts
-│   ├── img
-│   ├── index.html
-│   ├── js
-│   ├── notebooks
-│   ├── sitemap.xml
-│   └── sitemap.xml.gz
-├── src
-│   ├── mkdocs_nbconvert
-│   └── mkdocs_nbconvert.egg-info
-├── static
-│   └── img_01.jpeg
-└── .venv
-</code></pre></div>
-<p>Content of <code>mkdocs.yml</code> is:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">site_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MkDocs-nbconvert</span>
+├── [01;34msite[00m
+├── [01;34msrc[00m
+│   ├── [01;34mmkdocs_nbconvert[00m
+│   └── [01;34mmkdocs_nbconvert.egg-info[00m
+└── [01;34mstatic[00m
+    └── [01;35mimg_01.jpeg[00m
 
-<span class="nt">plugins</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="nt">nbconvert</span><span class="p">:</span>
-      <span class="nt">input_dir</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">notebooks</span>
-      <span class="nt">output_dir</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">notebooks</span>
-
-<span class="nt">nav</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="nt">README</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">README.md</span>
-  <span class="p p-Indicator">-</span> <span class="nt">Notebooks</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">notebooks/installation.md</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">notebooks/usage.md</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">notebooks/display_image.md</span>
+8 directories, 14 files
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>
+<p>We put markdown files in <code>docs/</code>, and jupyter notebook files in <code>notebooks/</code>.</p>
+<p>The <code>mkdocs.yml</code> of the project is:</p>
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pygmentize</span> <span class="n">mkdocs</span><span class="o">.</span><span class="n">yml</span>
 </code></pre></div>
-                
-              
-              
-                
+<div class="highlight"><pre><span></span><code>[94msite_name[39;49;00m: MkDocs-nbconvert
+[94mrepo_url[39;49;00m: https://github.com/tanbro/mkdocs-nbconvert
 
+[94muse_directory_urls[39;49;00m: false
+
+[94mnav[39;49;00m:
+    - [94mREADME[39;49;00m: README.md
+    - [94mNotebooks[39;49;00m:
+          - notebooks/installation.md
+          - notebooks/usage.md
+          - notebooks/image.md
+          - notebooks/matplotlib.md
+
+[94mplugins[39;49;00m:
+    - search
+    - [94mwith-pdf[39;49;00m:
+          [94menabled_if_env[39;49;00m: ENABLE_PDF_EXPORT
+    - [94mnbconvert[39;49;00m:
+          [94minput_dir[39;49;00m: notebooks
+          [94moutput_dir[39;49;00m: notebooks
+
+[94mtheme[39;49;00m:
+    [94mname[39;49;00m: material
+    [94mfeatures[39;49;00m:
+        - navigation.sections
+        - navigation.tabs
+        - navigation.top
+    [94mpalette[39;49;00m:
+        - [94mmedia[39;49;00m: [33m&quot;[39;49;00m[33m(prefers-color-scheme:[39;49;00m[31m [39;49;00m[33mlight)[39;49;00m[33m&quot;[39;49;00m
+          [94mscheme[39;49;00m: default
+          [94mtoggle[39;49;00m:
+              [94micon[39;49;00m: material/weather-night
+              [94mname[39;49;00m: switch to dark mode 🌙
+        - [94mmedia[39;49;00m: [33m&quot;[39;49;00m[33m(prefers-color-scheme:[39;49;00m[31m [39;49;00m[33mdark)[39;49;00m[33m&quot;[39;49;00m
+          [94mscheme[39;49;00m: slate
+          [94mprimary[39;49;00m: light blue
+          [94maccent[39;49;00m: light blue
+          [94mtoggle[39;49;00m:
+              [94micon[39;49;00m: material/weather-sunny
+              [94mname[39;49;00m: switch to light mode 🌞
+
+[94mmarkdown_extensions[39;49;00m:
+    - pymdownx.extra
+    [37m### pymdownx.extra replaces markdown.extensions.extra, Here is the full list of included extensions:[39;49;00m
+    [37m## pymdownx.betterem[39;49;00m
+    [37m## pymdownx.superfences[39;49;00m
+    [37m## markdown.extensions.footnotes[39;49;00m
+    [37m## markdown.extensions.attr_list[39;49;00m
+    [37m## markdown.extensions.def_list[39;49;00m
+    [37m## markdown.extensions.tables[39;49;00m
+    [37m## markdown.extensions.abbr[39;49;00m
+    [37m## markdown.extensions.md_in_html[39;49;00m
+    - pymdownx.highlight
+    - pymdownx.details
+    - pymdownx.saneheaders
+    - pymdownx.smartsymbols
+    - [94mpymdownx.critic[39;49;00m:
+          [94mmode[39;49;00m: view
+    - pymdownx.snippets
+    - pymdownx.caret
+    - pymdownx.mark
+    - pymdownx.tilde
+    - pymdownx.smartsymbols
+    [37m# Officially Supported Extensions[39;49;00m
+    - admonition
+    - meta
+    [37m# - sane_lists:[39;49;00m
+    [37m# - smarty:[39;49;00m
+    - [94mtoc[39;49;00m:
+          [94mpermalink[39;49;00m: true
+          [94mslugify[39;49;00m: [36m!!python/name:pymdownx.slugs.uslugify[39;49;00m
+</code></pre></div>
+<p>Attention the <code>nav</code> attribute: we write notebook files as <code>notebooks/*.md</code>.</p>
+<p>Because when building, the plugin call <a href="https://pypi.org/project/nbconvert/">nbconvert</a> to convert them to markdown files, and save <code>*.md</code> files in <code>notebooks</code> dir, then remove converted <code>*.md</code> at the end of building.</p>
 
               
             </article>
@@ -593,8 +650,7 @@
         
       </main>
       
-        
-<footer class="md-footer">
+        <footer class="md-footer">
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
@@ -633,14 +689,15 @@
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
       
     </div>
   </div>
@@ -650,10 +707,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.tabs", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.94ec81fe.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.tabs", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.01824240.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.48dfec6c.min.js"></script>
+      <script src="../assets/javascripts/bundle.e0abf5b0.min.js"></script>
       
     
   </body>
