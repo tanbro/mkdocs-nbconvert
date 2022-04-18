@@ -12,6 +12,7 @@ wheel
 twine
 coverage
 autopep8
+build
 
 matplotlib
 requests
