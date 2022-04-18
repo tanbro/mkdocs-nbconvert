@@ -5,7 +5,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/mkdocs-nbconvert.svg)](https://pypi.org/project/mkdocs-nbconvert/)
 [![PyPI - Format](https://img.shields.io/pypi/format/mkdocs-nbconvert.svg)](https://pypi.org/project/mkdocs-nbconvert/)
 
-A [MkDocs][] plug-in that provides a source parser for `*.ipynb` [Jupyter][] Notebook files, with [nbconvert][].
+A [MkDocs][] plug-in provides a source parser for `*.ipynb` [Jupyter][] Notebook files, base on [nbconvert][].
 
 ## Features
 

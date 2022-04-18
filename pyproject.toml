@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=48.0", "wheel", "setuptools_scm>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev" # guess-next-dev or post-release
+write_to = "src/mkdocs_nbconvert/version.py"
+
+[tool.autopep8]
+max_line_length = 127
