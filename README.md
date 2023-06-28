@@ -7,22 +7,23 @@
 
 A [MkDocs][] plug-in provides a source parser for `*.ipynb` [Jupyter][] Notebook files, base on [nbconvert][].
 
-## Features
+## References
 
-- doc: <https://tanbro.github.io/mkdocs-nbconvert/>
-- ref: <https://www.mkdocs.org/user-guide/plugins/>
+- <https://tanbro.github.io/mkdocs-nbconvert/>
+- <https://www.mkdocs.org/user-guide/plugins/>
 
-## Build the documentation
+## Build the site
 
-The project itself's documentation site is a demo of how to use is in [MkDocs][].
+The project itself's documentation site is a demo of how to use it.
 
-To serve it:
+To build and serve the doc-site:
 
 ```bash
-mkdocs serve -a 127.0.0.1:8080
+pip install -r dev.requirements.txt
+mkdocs serve
 ```
 
-Then open `http://127.0.0.1:8080` with your browser.
+Then open `http://127.0.0.1:8000` in your browser.
 
 [MkDocs]: http://www.mkdocs.org/
 [Jupyter]: https://jupyter.org/

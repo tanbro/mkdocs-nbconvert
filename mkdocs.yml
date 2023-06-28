@@ -4,20 +4,23 @@ repo_url: https://github.com/tanbro/mkdocs-nbconvert
 use_directory_urls: false
 
 nav:
-    - README: README.md
+    - index.md
     - Notebooks:
           - notebooks/installation.md
           - notebooks/usage.md
           - notebooks/image.md
           - notebooks/matplotlib.md
+    - authors.md
+    - changelog.md
 
 plugins:
     - search
-    - with-pdf:
-          enabled_if_env: ENABLE_PDF_EXPORT
     - nbconvert:
           input_dir: notebooks
           output_dir: notebooks
+          execute_enabled: true
+          execute_options:
+              write_back: false
 
 theme:
     name: material
@@ -33,23 +36,12 @@ theme:
               name: switch to dark mode 🌙
         - media: "(prefers-color-scheme: dark)"
           scheme: slate
-          primary: light blue
-          accent: light blue
           toggle:
               icon: material/weather-sunny
               name: switch to light mode 🌞
 
 markdown_extensions:
     - pymdownx.extra
-    ### pymdownx.extra replaces markdown.extensions.extra, Here is the full list of included extensions:
-    ## pymdownx.betterem
-    ## pymdownx.superfences
-    ## markdown.extensions.footnotes
-    ## markdown.extensions.attr_list
-    ## markdown.extensions.def_list
-    ## markdown.extensions.tables
-    ## markdown.extensions.abbr
-    ## markdown.extensions.md_in_html
     - pymdownx.highlight
     - pymdownx.details
     - pymdownx.saneheaders
@@ -61,11 +53,7 @@ markdown_extensions:
     - pymdownx.mark
     - pymdownx.tilde
     - pymdownx.smartsymbols
-    # Officially Supported Extensions
     - admonition
     - meta
-    # - sane_lists:
-    # - smarty:
     - toc:
           permalink: true
-          slugify: !!python/name:pymdownx.slugs.uslugify
