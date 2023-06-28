@@ -4,13 +4,15 @@
 # project itself
 -e .
 
-# material theme and it's extensions
+# material theme and markdown extensions
 mkdocs-material
-pygments
 pymdown-extensions
 
-# jupyter notebook and requirements
+# jupyter
 jupyter
+
+# requirements to run the notebook
+pygments
 matplotlib
 requests
 

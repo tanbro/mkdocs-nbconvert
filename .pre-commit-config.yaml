@@ -18,6 +18,11 @@ repos:
       - id: check-builtin-literals
       - id: check-docstring-first
 
+  - repo: https://github.com/kynan/nbstripout
+    rev: "0.6.1"
+    hooks:
+      - id: nbstripout
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.0.275
     hooks:
