@@ -92,8 +92,7 @@ class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
             for resource_name, resource_data in resources["outputs"].items():
                 resource_src_dir = path.dirname(file_obj.abs_src_path)
                 resource_src_path = path.join(resource_src_dir, resource_name)
-                if not path.isdir(resource_src_dir):
-                    makedirs(resource_src_dir)
+                makedirs(resource_src_dir, exist_ok=True)
                 with open(resource_src_path, "wb") as fp:
                     fp.write(resource_data)
                 self._src_files.append(resource_src_path)
@@ -106,8 +105,7 @@ class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
                     resource_name,
                     resource_dest_path,
                 )
-                if not path.isdir(resource_dest_dir):
-                    makedirs(resource_dest_dir)
+                makedirs(resource_dest_dir, exist_ok=True)
                 with open(resource_dest_path, "wb") as fp:
                     fp.write(resource_data)
 
