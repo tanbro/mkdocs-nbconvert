@@ -10,6 +10,8 @@ nav:
           - notebooks/usage.md
           - notebooks/image.md
           - notebooks/matplotlib.md
+    - authors.md
+    - changelog.md
 
 plugins:
     - search
