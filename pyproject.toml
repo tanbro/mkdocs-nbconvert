@@ -28,7 +28,7 @@ dependencies = ["mkdocs", "nbconvert"]
 # Project links
 [project.urls]
 Homepage = "https://tanbro.github.io/mkdocs-nbconvert"
-Repository = "https://github.com/tanbro/mkdocs_nbconvert.git"
+Repository = "https://github.com/tanbro/mkdocs-nbconvert"
 Documentation = "https://tanbro.github.io/mkdocs-nbconvert"
 
 [project.entry-points."mkdocs.plugins"]
