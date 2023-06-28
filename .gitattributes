@@ -1,3 +1,6 @@
+* text=auto eol=lf
+*.{bat,[bB][aA][tT]} text eol=crlf
+
 *.jpeg filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text

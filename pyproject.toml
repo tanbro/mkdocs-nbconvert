@@ -1,10 +1,46 @@
 [build-system]
-requires = ["setuptools>=48.0", "wheel", "setuptools_scm>=6.2"]
 build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61", "setuptools_scm>=6.2"]
+
+[project]
+name = "mkdocs-nbconvert"
+readme = {file = 'README.md', content-type = 'text/markdown'}
+authors = [
+  {name = "liu xue yan", email = "liu_xue_yan@foxmail.com"},
+]
+description = "A MkDocs plug-in provides a source parser for *.ipynb Jupyter notebook files, base on nbconvert."
+keywords = ["mkdocs", "mkdocs-plugin", "jupyter", "notebook", "jupyter-notebook", "markdown", "md", "nbconvert"]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+  "License :: OSI Approved :: BSD License",
+  "Development Status :: 4 - Beta",
+  "Topic :: Documentation",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python",
+]
+dynamic = ["version"]
+
+# requires python version
+requires-python = ">=3.7"
+# requires
+dependencies = ["mkdocs", "nbconvert"]
+
+# Project links
+[project.urls]
+Homepage = "https://tanbro.github.io/mkdocs-nbconvert"
+Repository = "https://github.com/tanbro/mkdocs_nbconvert.git"
+Documentation = "https://tanbro.github.io/mkdocs-nbconvert"
+
+[project.entry-points."mkdocs.plugins"]
+nbconvert = "mkdocs_nbconvert:NbConvertPlugin"
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools_scm]
-version_scheme = "guess-next-dev" # guess-next-dev or post-release
 write_to = "src/mkdocs_nbconvert/version.py"
 
-[tool.autopep8]
-max_line_length = 127
+[tool.black]
+line-length = 128
+[tool.isort]
+profile = "black"

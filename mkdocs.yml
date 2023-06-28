@@ -4,17 +4,13 @@ repo_url: https://github.com/tanbro/mkdocs-nbconvert
 use_directory_urls: false
 
 nav:
-    - README: README.md
-    - Notebooks:
-          - notebooks/installation.md
-          - notebooks/usage.md
-          - notebooks/image.md
-          - notebooks/matplotlib.md
+    - notebooks/installation.md
+    - notebooks/usage.md
+    - notebooks/image.md
+    - notebooks/matplotlib.md
 
 plugins:
     - search
-    - with-pdf:
-          enabled_if_env: ENABLE_PDF_EXPORT
     - nbconvert:
           input_dir: notebooks
           output_dir: notebooks
@@ -68,4 +64,3 @@ markdown_extensions:
     # - smarty:
     - toc:
           permalink: true
-          slugify: !!python/name:pymdownx.slugs.uslugify

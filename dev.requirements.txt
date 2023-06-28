@@ -1,0 +1,20 @@
+# The file defines requirements for the project's local development.
+# It's NOT package install dependencies.
+
+# project itself
+-e .
+
+# material theme and it's extensions
+mkdocs-material
+pygments
+pymdown-extensions
+
+# jupyter notebook and requirements
+jupyter
+matplotlib
+requests
+
+# CI tools
+build
+pre-commit
+ruff
