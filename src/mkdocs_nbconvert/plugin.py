@@ -67,7 +67,7 @@ class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
                 ep = ExecutePreprocessor(**{k: v for k, v in opts.items() if v is not None and k in ("timeout", "kernel_name")})
                 run_path = opts.get("run_path")
                 if run_path:
-                    resources = {"metadata": {"path": "run_path"}}
+                    resources = {"metadata": {"path": run_path}}
                 else:
                     resources = {"metadata": {"path": input_dir}}
                 ep.preprocess(nb, resources)
