@@ -9,7 +9,8 @@ from mkdocs.plugins import BasePlugin
 from mkdocs.structure.files import File
 from mkdocs.utils import log
 from nbconvert import MarkdownExporter
-from nbconvert.preprocessors import CellExecutionError, ExecutePreprocessor
+from nbconvert.preprocessors import CellExecutionError, ExecutePreprocessor  # pyright: ignore[reportPrivateImportUsage]
+
 
 __all__ = ["NbConvertPlugin"]
 
@@ -22,7 +23,7 @@ class _ExecuteOptions(base.Config):
     exit_on_error = config_options.Type(bool, default=True)
 
 
-class NbConvertPluginConfig(base.Config):
+class _PluginConfig(base.Config):
     input_dir = config_options.Dir(exists=True, default="notebooks")
     output_dir = config_options.Type(str, default="notebooks")
     recursive = config_options.Type(bool, default=True)
@@ -30,7 +31,7 @@ class NbConvertPluginConfig(base.Config):
     execute_options = config_options.SubConfig(_ExecuteOptions)
 
 
-class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
+class NbConvertPlugin(BasePlugin[_PluginConfig]):
     def on_files(self, files, config, **kwargs):
         log.debug("[NbConvertPlugin] config: %s", pformat(self.config))
         self._src_files = []
