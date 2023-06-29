@@ -9,7 +9,7 @@ from mkdocs.plugins import BasePlugin
 from mkdocs.structure.files import File
 from mkdocs.utils import log
 from nbconvert import MarkdownExporter
-from nbconvert.preprocessors import ExecutePreprocessor  # type: ignore
+from nbconvert.preprocessors import CellExecutionError, ExecutePreprocessor  # type: ignore
 
 __all__ = ["NbConvertPlugin"]
 
@@ -77,12 +77,20 @@ class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
                 ts = time()
                 ep = ExecutePreprocessor(**exe_opts)
                 resources = {"metadata": {"path": exe_path if exe_path else input_dir}}
-                ep.preprocess(nb, resources)
-                log.debug("[NbConvertPlugin] (%d) execute finish(%.3fs)", i, time() - ts)
-                if exe_save:
-                    log.debug("[NbConvertPlugin] (%d) save", i)
-                    with open(nb_path, "w", encoding="utf-8") as fp:
-                        nbformat.write(nb, fp)
+                exe_completed = False
+                try:
+                    ep.preprocess(nb, resources)
+                except CellExecutionError as err:
+                    exe_completed = True
+                    log.error("[NbConvertPlugin] (%d) execute fail(%.3fs): %s", i, time() - ts, err)
+                else:
+                    exe_completed = True
+                    log.debug("[NbConvertPlugin] (%d) execute finish(%.3fs)", i, time() - ts)
+                finally:
+                    if exe_save and exe_completed:
+                        log.debug("[NbConvertPlugin] (%d) save", i)
+                        with open(nb_path, "w", encoding="utf-8") as fp:
+                            nbformat.write(nb, fp)
             # convert
             body, resources = exporter.from_notebook_node(nb)
             # save exported
