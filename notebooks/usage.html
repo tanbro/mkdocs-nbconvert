@@ -330,6 +330,16 @@
       <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
       
       
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
       
         <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
           Notebooks
@@ -597,20 +607,24 @@ When relative, it's from <code>mkdocs</code> configuration file's directory.</p>
 <p><code>execute_options</code>: Options for execution:</p>
 <ul>
 <li>
-<p><code>execute_options.run_path</code>: working directory when execute the notebook. The plugin in will take <code>input_dir</code> as the path if omitted.</p>
+<p><code>execute_options.run_path</code>: Specifies in which folder to execute the notebook. The plugin in will take <code>input_dir</code> as the path if not specified.</p>
 </li>
 <li>
-<p><code>execute_options.kernel_name</code>: Which Jupyter kernel to run the notebook. Current environment will be used if omitted.</p>
+<p><code>execute_options.kernel_name</code>: The execution kernel. When not specified, the default Python kernel is chosen.</p>
 </li>
 <li>
-<p><code>execute_options.timeout</code>: Timeout of the notebook's execution. No timeout if omitted.</p>
+<p><code>execute_options.timeout</code>: The cell execution timeout. No timeout when not specified.</p>
 </li>
 <li>
 <p><code>execute_options.write_back</code>: Whether save executed result to the notebook file. <code>false</code> by default.</p>
 </li>
+<li>
+<p><code>exit_on_error</code>: Whether exit when an error occurred. Default is <code>true</code>.</p>
+</li>
 </ul>
 </li>
 </ul>
+<hr />
 <p>Options can be add to configuration file as below:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">plugins</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">nbconvert</span><span class="p">:</span>
@@ -621,65 +635,23 @@ When relative, it's from <code>mkdocs</code> configuration file's directory.</p>
 <span class="w">         </span><span class="nt">execute_options</span><span class="p">:</span>
 <span class="w">             </span><span class="nt">write_back</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
-<p>In the above example, the plugin will open Jupyter notebook file in <code>{{project_dir}}\notebooks</code>, then convert them to markdown files to <code>{{project_dir}}\docs\notebooks</code>, in which <code>docs</code> is the default value of <a href="https://www.mkdocs.org/user-guide/configuration/#docs_dir"><code>doc_dir</code></a>.
-A pre-execution will be performed, and the running result will be saved to notebook files.</p>
+<p>In the above example, the plugin recursively searches Jupyter notebook files in <code>{{project_dir}}\notebooks</code>, then converts them to markdown files to <code>{{project_dir}}\docs\notebooks</code>, where <code>{{project_dir}}\docs</code> is the default value of <a href="https://www.mkdocs.org/user-guide/configuration/#docs_dir"><code>doc_dir</code></a> configure. A pre-execution will be performed, and the running result will be saved to original notebook files.</p>
 <h2 id="nav">Nav<a class="headerlink" href="#nav" title="Permanent link">&para;</a></h2>
-<p>In <code>nav</code> section, add <code>*.ipynb</code> files as normal markdown files with replacing extension <code>*.ipynb</code> to <code>*.md</code>, since they're converted to markdown into <code>output_dir</code>.</p>
-<p>For this project, it's directory structure is as below:</p>
-<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">tree</span> <span class="o">-</span><span class="n">L</span> <span class="mi">2</span> <span class="o">-</span><span class="n">I</span> <span class="n">venv</span>
+<p>In <code>nav</code> section, add <code>*.ipynb</code> files as normal markdown files with replacing extension <code>*.ipynb</code> to <code>*.md</code>, since they're converted to markdown files in <code>output_dir</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">nav</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">index.md</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Notebooks</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">notebooks/installation.md</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">notebooks/usage.md</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">notebooks/image.md</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">notebooks/matplotlib.md</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">authors.md</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">changelog.md</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>参数太多 - 2
-</code></pre></div>
-<p>We put markdown files in <code>docs/</code>, and jupyter notebook files in <code>notebooks/</code>.</p>
-<p>The <code>mkdocs.yml</code> of the project is:</p>
-<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pygmentize</span> <span class="o">../</span><span class="n">mkdocs</span><span class="o">.</span><span class="n">yml</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>[38;2;0;128;0;01msite_name[39;00m:[38;2;187;187;187m [39mMkDocs-nbconvert
-[38;2;0;128;0;01mrepo_url[39;00m:[38;2;187;187;187m [39mhttps://github.com/tanbro/mkdocs-nbconvert
-
-[38;2;0;128;0;01muse_directory_urls[39;00m:[38;2;187;187;187m [39mfalse
-
-[38;2;0;128;0;01mnav[39;00m:
-[38;2;187;187;187m    [39m-[38;2;187;187;187m [39mindex.md
-[38;2;187;187;187m    [39m-[38;2;187;187;187m [39m[38;2;0;128;0;01mNotebooks[39;00m:
-[38;2;187;187;187m          [39m-[38;2;187;187;187m [39mnotebooks/installation.md
-[38;2;187;187;187m          [39m-[38;2;187;187;187m [39mnotebooks/usage.md
-[38;2;187;187;187m          [39m-[38;2;187;187;187m [39mnotebooks/image.md
-[38;2;187;187;187m          [39m-[38;2;187;187;187m [39mnotebooks/matplotlib.md
-[38;2;187;187;187m    [39m-[38;2;187;187;187m [39mauthors.md
-[38;2;187;187;187m    [39m-[38;2;187;187;187m [39mchangelog.md
-
-[38;2;0;128;0;01mplugins[39;00m:
-[38;2;187;187;187m    [39m-[38;2;187;187;187m [39msearch
-[38;2;187;187;187m    [39m-[38;2;187;187;187m [39m[38;2;0;128;0;01mnbconvert[39;00m:
-[38;2;187;187;187m          [39m[38;2;0;128;0;01minput_dir[39;00m:[38;2;187;187;187m [39mnotebooks
-[38;2;187;187;187m          [39m[38;2;0;128;0;01moutput_dir[39;00m:[38;2;187;187;187m [39mnotebooks
-[38;2;187;187;187m          [39m[38;2;0;128;0;01mexecute_enabled[39;00m:[38;2;187;187;187m [39mtrue
-[38;2;187;187;187m          [39m[38;2;0;128;0;01mexecute_options[39;00m:
-[38;2;187;187;187m              [39m[38;2;0;128;0;01mwrite_back[39;00m:[38;2;187;187;187m [39mfalse
-
-[38;2;0;128;0;01mtheme[39;00m:
-[38;2;187;187;187m    [39m[38;2;0;128;0;01mname[39;00m:[38;2;187;187;187m [39mmaterial
-[38;2;187;187;187m    [39m[38;2;0;128;0;01mfeatures[39;00m:
-[38;2;187;187;187m        [39m-[38;2;187;187;187m [39mnavigation.sections
-[38;2;187;187;187m        [39m-[38;2;187;187;187m [39mnavigation.tabs
-[38;2;187;187;187m        [39m-[38;2;187;187;187m [39mnavigation.top
-[38;2;187;187;187m    [39m[38;2;0;128;0;01mpalette[39;00m:
-[38;2;187;187;187m        [39m-[38;2;187;187;187m [39m[38;2;0;128;0;01mmedia[39;00m:[38;2;187;187;187m [39m[38;2;186;33;33m&quot;[39m[38;2;186;33;33m(prefers-color-scheme:[39m[38;2;25;23;124m [39m[38;2;186;33;33mlight)[39m[38;2;186;33;33m&quot;[39m
-[38;2;187;187;187m          [39m[38;2;0;128;0;01mscheme[39;00m:[38;2;187;187;187m [39mdefault
-[38;2;187;187;187m          [39m[38;2;0;128;0;01mtoggle[39;00m:
-[38;2;187;187;187m              [39m[38;2;0;128;0;01micon[39;00m:[38;2;187;187;187m [39mmaterial/weather-night
-[38;2;187;187;187m              [39m[38;2;0;128;0;01mname[39;00m:[38;2;187;187;187m [39mswitch to dark mode
-
-
-
-*** Error while highlighting:
-UnicodeEncodeError: &#39;gbk&#39; codec can&#39;t encode character &#39;\U0001f319&#39; in position 0: illegal multibyte sequence
-   (file &quot;D:\repos\tanbro@github\mkdocs-nbconvert\.venv\Lib\site-packages\pygments\formatters\terminal256.py&quot;, line 275, in format_unencoded)
-*** If this is a bug you want to report, please rerun with -v.
-</code></pre></div>
-<p>Attention the <code>nav</code> attribute: we write notebook files as <code>notebooks/*.md</code>.</p>
-<p>Because when building, the plugin call <a href="https://pypi.org/project/nbconvert/">nbconvert</a> to convert them to markdown files, and save <code>*.md</code> files in <code>notebooks</code> dir, then remove converted <code>*.md</code> at the end of building.</p>
+<blockquote>
+<p><strong>Warning:</strong></p>
+<p>converted <code>notebooks/*.md</code> files will be removed at the end of building.</p>
+</blockquote>
 
 
 
@@ -722,7 +694,7 @@ UnicodeEncodeError: &#39;gbk&#39; codec can&#39;t encode character &#39;\U0001f3
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.tabs", "navigation.top"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "header.autohide"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.b425cdc4.min.js"></script>
