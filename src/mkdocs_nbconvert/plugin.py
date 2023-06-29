@@ -43,6 +43,12 @@ class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
         nb_finder = iglob(path.join(config_file_dir, input_dir, "**", "*.ipynb"), recursive=self.config["recursive"])
         # Exporter
         exporter = MarkdownExporter()
+        # Pre-execute args
+        exe_opts = exe_path = exe_save = None
+        if self.config.get("execute_enabled"):
+            _opts = self.config.get("execute_options") or {}
+            exe_opts = {k: v for k, v in _opts.items() if k in ("timeout", "kernel_name") and v is not None}
+            exe_path, exe_save = (_opts.get(a) for a in ("run_path", "write_back"))
         # Converting
         for i, nb_path in enumerate(nb_finder, 1):
             # Prepare output file/dir
@@ -54,26 +60,27 @@ class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
             md_path = path.join(md_dir, md_basename)
             md_rel_dir = path.relpath(md_dir, config["docs_dir"])
             md_rel_path = path.join(md_rel_dir, md_basename)
+            file_obj = File(
+                path=md_rel_path,
+                src_dir=config["docs_dir"],
+                dest_dir=config["site_dir"],
+                use_directory_urls=config["use_directory_urls"],
+            )
             #
-            log.debug("[NbConvertPlugin] (%d) %r => %r", i, nb_path, md_path)
-            # run nbconvert ...
+            log.info("[NbConvertPlugin] (%d) %r => %r", i, nb_path, file_obj)
+            # read out
             with open(nb_path, encoding="utf-8") as fp:
                 nb = nbformat.read(fp, nbformat.NO_CONVERT)
             # pre-execute
-            if self.config.get("execute_enabled"):
-                log.debug("[NbConvertPlugin] (%d) execution start: %r", i, nb_path)
+            if exe_opts is not None:
+                log.debug("[NbConvertPlugin] (%d) execute start", i)
                 ts = time()
-                opts = self.config.get("execute_options") or {}
-                ep = ExecutePreprocessor(**{k: v for k, v in opts.items() if v is not None and k in ("timeout", "kernel_name")})
-                run_path = opts.get("run_path")
-                if run_path:
-                    resources = {"metadata": {"path": run_path}}
-                else:
-                    resources = {"metadata": {"path": input_dir}}
+                ep = ExecutePreprocessor(**exe_opts)
+                resources = {"metadata": {"path": exe_path if exe_path else input_dir}}
                 ep.preprocess(nb, resources)
-                log.debug("[NbConvertPlugin] (%d) execution finished(%.2f sec): %r", i, time() - ts, nb_path)
-                if opts.get("write_back"):
-                    log.debug("[NbConvertPlugin] (%d) save: %r", i, nb_path)
+                log.debug("[NbConvertPlugin] (%d) execute finish(%.3fs)", i, time() - ts)
+                if exe_save:
+                    log.debug("[NbConvertPlugin] (%d) save", i)
                     with open(nb_path, "w", encoding="utf-8") as fp:
                         nbformat.write(nb, fp)
             # convert
@@ -82,13 +89,6 @@ class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
             makedirs(md_dir, exist_ok=True)
             with open(md_path, "w", encoding="utf-8") as fp:
                 fp.write(body)
-            file_obj = File(
-                path=md_rel_path,
-                src_dir=config["docs_dir"],
-                dest_dir=config["site_dir"],
-                use_directory_urls=config["use_directory_urls"],
-            )
-
             for resource_name, resource_data in resources["outputs"].items():
                 resource_src_dir = path.dirname(file_obj.abs_src_path)
                 resource_src_path = path.join(resource_src_dir, resource_name)
@@ -109,7 +109,6 @@ class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
                 with open(resource_dest_path, "wb") as fp:
                     fp.write(resource_data)
 
-            log.debug("[NbConvertPlugin] (%d) %r", i, file_obj)
             self._src_files.append(file_obj.abs_src_path)
             files.append(file_obj)
         return files
