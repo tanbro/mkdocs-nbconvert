@@ -23,7 +23,7 @@ dynamic = ["version"]
 # requires python version
 requires-python = ">=3.7"
 # requires
-dependencies = ["mkdocs", "nbconvert"]
+dependencies = ["mkdocs>=1.4", "nbconvert>=4.2"]
 
 # Project links
 [project.urls]

@@ -21,13 +21,17 @@ plugins:
           execute_enabled: true
           execute_options:
               write_back: false
+              exit_on_error: true
 
 theme:
     name: material
     features:
+        - navigation.indexes
         - navigation.sections
         - navigation.tabs
         - navigation.top
+        - navigation.tracking
+        - header.autohide
     palette:
         - media: "(prefers-color-scheme: light)"
           scheme: default
@@ -52,7 +56,8 @@ markdown_extensions:
     - pymdownx.caret
     - pymdownx.mark
     - pymdownx.tilde
-    - pymdownx.smartsymbols
+    - pymdownx.superfences
+    - pymdownx.emoji
     - admonition
     - meta
     - toc:
