@@ -1,3 +1,5 @@
+import asyncio
+import platform
 from glob import iglob
 from os import makedirs, path, remove, removedirs
 from pprint import pformat
@@ -51,6 +53,12 @@ class NbConvertPlugin(BasePlugin[_PluginConfig]):
             _opts = self.config.get("execute_options") or {}
             exe_opts = {k: v for k, v in _opts.items() if k in ("timeout", "kernel_name") and v is not None}
             exe_path, exe_save, exe_exit_on_error = (_opts.get(a) for a in ("run_path", "write_back", "exit_on_error"))
+            # On windows:
+            #   Proactor event loop does not implement add_reader family of methods required for zmq.
+            #   Registering an additional selector thread for add_reader support via tornado.
+            #   Use `asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())` to avoid this warning.
+            if platform.system() == "Windows":
+                asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
         # Converting
         for i, nb_path in enumerate(nb_finder, 1):
             # Prepare output file/dir
