@@ -9,7 +9,7 @@ from mkdocs.plugins import BasePlugin
 from mkdocs.structure.files import File
 from mkdocs.utils import log
 from nbconvert import MarkdownExporter
-from nbconvert.preprocessors import CellExecutionError, ExecutePreprocessor  # type: ignore
+from nbconvert.preprocessors import CellExecutionError, ExecutePreprocessor
 
 __all__ = ["NbConvertPlugin"]
 
@@ -18,7 +18,8 @@ class _ExecuteOptions(base.Config):
     run_path = config_options.Optional(config_options.Dir())
     kernel_name = config_options.Optional(config_options.Type(str))
     timeout = config_options.Optional(config_options.Type(int))
-    write_back = config_options.Optional(config_options.Type(bool))
+    write_back = config_options.Type(bool, default=False)
+    exit_on_error = config_options.Type(bool, default=True)
 
 
 class NbConvertPluginConfig(base.Config):
@@ -44,11 +45,11 @@ class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
         # Exporter
         exporter = MarkdownExporter()
         # Pre-execute args
-        exe_opts = exe_path = exe_save = None
+        exe_opts = exe_path = exe_save = exe_exit_on_error = None
         if self.config.get("execute_enabled"):
             _opts = self.config.get("execute_options") or {}
             exe_opts = {k: v for k, v in _opts.items() if k in ("timeout", "kernel_name") and v is not None}
-            exe_path, exe_save = (_opts.get(a) for a in ("run_path", "write_back"))
+            exe_path, exe_save, exe_exit_on_error = (_opts.get(a) for a in ("run_path", "write_back", "exit_on_error"))
         # Converting
         for i, nb_path in enumerate(nb_finder, 1):
             # Prepare output file/dir
@@ -73,22 +74,23 @@ class NbConvertPlugin(BasePlugin[NbConvertPluginConfig]):
                 nb = nbformat.read(fp, nbformat.NO_CONVERT)
             # pre-execute
             if exe_opts is not None:
-                log.debug("[NbConvertPlugin] (%d) execute start", i)
+                log.debug("[NbConvertPlugin] (%d) notebook execution start", i)
                 ts = time()
-                ep = ExecutePreprocessor(**exe_opts)
-                resources = {"metadata": {"path": exe_path if exe_path else input_dir}}
                 exe_completed = False
+                ep = ExecutePreprocessor(**exe_opts)
                 try:
-                    ep.preprocess(nb, resources)
+                    ep.preprocess(nb, {"metadata": {"path": exe_path if exe_path else input_dir}})
                 except CellExecutionError as err:
+                    if exe_exit_on_error:
+                        raise
                     exe_completed = True
-                    log.error("[NbConvertPlugin] (%d) execute fail(%.3fs): %s", i, time() - ts, err)
+                    log.error("[NbConvertPlugin] (%d) notebook execution error(%.3fs): %s", i, time() - ts, err)
                 else:
                     exe_completed = True
-                    log.debug("[NbConvertPlugin] (%d) execute finish(%.3fs)", i, time() - ts)
+                    log.debug("[NbConvertPlugin] (%d) notebook execution finish(%.3fs)", i, time() - ts)
                 finally:
                     if exe_save and exe_completed:
-                        log.debug("[NbConvertPlugin] (%d) save", i)
+                        log.debug("[NbConvertPlugin] (%d) save notebook", i)
                         with open(nb_path, "w", encoding="utf-8") as fp:
                             nbformat.write(nb, fp)
             # convert

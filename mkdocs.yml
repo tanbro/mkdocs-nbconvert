@@ -21,6 +21,7 @@ plugins:
           execute_enabled: true
           execute_options:
               write_back: false
+              exit_on_error: true
 
 theme:
     name: material
