@@ -17,7 +17,7 @@ The project itself's documentation site is a demo of how to use it.
 To build and serve the doc-site:
 
 ```bash
-pip install -r dev.requirements.txt
+pip install -r requirements.txt
 mkdocs serve
 ```
 

@@ -11,8 +11,10 @@ from mkdocs.plugins import BasePlugin
 from mkdocs.structure.files import File
 from mkdocs.utils import log
 from nbconvert import MarkdownExporter
-from nbconvert.preprocessors import CellExecutionError, ExecutePreprocessor  # pyright: ignore[reportPrivateImportUsage]
-
+from nbconvert.preprocessors import (  # pyright: ignore[reportPrivateImportUsage]
+    CellExecutionError,
+    ExecutePreprocessor,
+)
 
 __all__ = ["NbConvertPlugin"]
 
