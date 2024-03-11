@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.2
+
+> 📅 **Date** 2024-3-11
+
+Update dependencies and tools to latest version.
+
 ## v0.2.1
 
 Date: 2023-06-29
