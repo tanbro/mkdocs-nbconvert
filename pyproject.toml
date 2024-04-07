@@ -4,19 +4,33 @@ requires = ["setuptools>=64", "setuptools_scm>=8"]
 
 [project]
 name = "mkdocs-nbconvert"
-readme = {file = 'README.md', content-type = 'text/markdown'}
-authors = [
-  {name = "liu xue yan", email = "liu_xue_yan@foxmail.com"},
-]
+readme = { file = 'README.md', content-type = 'text/markdown' }
+authors = [{ name = "liu xue yan", email = "liu_xue_yan@foxmail.com" }]
 description = "A MkDocs plug-in provides a source parser for *.ipynb Jupyter notebook files, base on nbconvert."
-keywords = ["mkdocs", "mkdocs-plugin", "jupyter", "notebook", "jupyter-notebook", "markdown", "md", "nbconvert"]
-license = {text = "BSD-3-Clause"}
+keywords = [
+  "mkdocs",
+  "mkdocs-plugin",
+  "jupyter",
+  "notebook",
+  "jupyter-notebook",
+  "markdown",
+  "md",
+  "nbconvert",
+]
+license = { text = "BSD-3-Clause" }
 classifiers = [
   "License :: OSI Approved :: BSD License",
-  "Development Status :: 4 - Beta",
+  # "Development Status :: 1 - Planning",
+  # "Development Status :: 2 - Pre-Alpha",
+  # "Development Status :: 3 - Alpha",
+  # "Development Status :: 4 - Beta",
+  "Development Status :: 5 - Production/Stable",
+  # "Development Status :: 6 - Mature",
+  # "Development Status :: 7 - Inactive",
   "Topic :: Documentation",
   "Intended Audience :: Developers",
   "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
@@ -42,7 +56,7 @@ nbconvert = "mkdocs_nbconvert:NbConvertPlugin"
 where = ["src"]
 
 [tool.setuptools_scm]
-write_to = "src/mkdocs_nbconvert/version.py"
+write_to = "src/mkdocs_nbconvert/_version.py"
 
 [tool.black]
 line-length = 128
