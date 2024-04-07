@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.3
+
+> 📅 **Date** 2024-4-7
+
+Mark the package's Development Status to 5 - Production/Stable
+
 ## v0.2.2
 
 > 📅 **Date** 2024-3-11
