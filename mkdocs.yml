@@ -4,61 +4,61 @@ repo_url: https://github.com/tanbro/mkdocs-nbconvert
 use_directory_urls: false
 
 nav:
-    - index.md
-    - Notebooks:
-          - notebooks/installation.md
-          - notebooks/usage.md
-          - notebooks/image.md
-          - notebooks/matplotlib.md
-    - authors.md
-    - changelog.md
+  - index.md
+  - Notebooks:
+      - notebooks/installation.md
+      - notebooks/usage.md
+      - notebooks/image.md
+      - notebooks/matplotlib.md
+  - authors.md
+  - changelog.md
 
 plugins:
-    - search
-    - nbconvert:
-          input_dir: notebooks
-          output_dir: notebooks
-          execute_enabled: true
-          execute_options:
-              write_back: false
-              exit_on_error: true
+  - search
+  - nbconvert:
+      input_dir: notebooks
+      output_dir: notebooks
+      execute_enabled: true
+      execute_options:
+        write_back: false
+        exit_on_error: true
 
 theme:
-    name: material
-    features:
-        - navigation.indexes
-        - navigation.sections
-        - navigation.tabs
-        - navigation.top
-        - navigation.tracking
-        - header.autohide
-    palette:
-        - media: "(prefers-color-scheme: light)"
-          scheme: default
-          toggle:
-              icon: material/weather-night
-              name: switch to dark mode 🌙
-        - media: "(prefers-color-scheme: dark)"
-          scheme: slate
-          toggle:
-              icon: material/weather-sunny
-              name: switch to light mode 🌞
+  name: material
+  features:
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - navigation.tracking
+    - header.autohide
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: switch to dark mode 🌙
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: switch to light mode 🌞
 
 markdown_extensions:
-    - pymdownx.extra
-    - pymdownx.highlight
-    - pymdownx.details
-    - pymdownx.saneheaders
-    - pymdownx.smartsymbols
-    - pymdownx.critic:
-          mode: view
-    - pymdownx.snippets
-    - pymdownx.caret
-    - pymdownx.mark
-    - pymdownx.tilde
-    - pymdownx.superfences
-    - pymdownx.emoji
-    - admonition
-    - meta
-    - toc:
-          permalink: true
+  - pymdownx.extra
+  - pymdownx.highlight
+  - pymdownx.details
+  - pymdownx.saneheaders
+  - pymdownx.smartsymbols
+  - pymdownx.critic:
+      mode: view
+  - pymdownx.snippets
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.superfences
+  - pymdownx.emoji
+  - admonition
+  - meta
+  - toc:
+      permalink: true

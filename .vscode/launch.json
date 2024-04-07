@@ -5,14 +5,23 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: mkdocs build",
-            "type": "python",
+            "name": "build",
+            "type": "debugpy",
             "request": "launch",
             "module": "mkdocs",
             "args": [
                 "build"
             ],
             "justMyCode": true
+        },
+        {
+            "name": "serve",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "mkdocs",
+            "args": [
+                "serve"
+            ]
         }
     ]
 }
