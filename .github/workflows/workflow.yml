@@ -5,10 +5,10 @@ name: workflow
 
 on:
   push:
-    branches: [master]
-    tags: ["*"]
+    branches: [main, master]
+    tags: ["v*"]
   pull_request:
-    branches: [master]
+    branches: [main, master]
 
 jobs:
   get-version-pep440:
@@ -40,13 +40,13 @@ jobs:
           cache: pip # caching pip dependencies
       - name: Install project and dependent tools
         run: |
-          pip install -e . -r requirements.txt
+          python -m pip install -e . -r requirements.txt
       - name: Check with ruff
         run: |
-          ruff check .
-      - name: MkDocs gh-deploy
+          python -m ruff check .
+      - name: MkDocs gh-deploy --force
         run: |
-          mkdocs gh-deploy
+          python -m mkdocs gh-deploy
 
   build:
     runs-on: ubuntu-latest
@@ -63,7 +63,7 @@ jobs:
       - name: Install builder
         run: pip install build
       - name: Build Python distribution
-        run: pyproject-build
+        run: python -m build
       - name: Upload dist to artifact
         uses: actions/upload-artifact@v4
         with:
