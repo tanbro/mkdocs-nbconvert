@@ -28,7 +28,7 @@ jobs:
           fi
           echo "version=${PEP440_VERSION}" | tee -a $GITHUB_OUTPUT
 
-  check-mkdocs_gh_dploy:
+  check-mkdocs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,17 +39,17 @@ jobs:
           cache: pip # caching pip dependencies
       - name: Install project and dependent tools
         run: |
-          python3 -m pip install -r requirements.txt
+          pip install -e . -r requirements.txt
       - name: Check with ruff
         run: |
-          python3 -m ruff check .
-      - name: Update docs
+          ruff check .
+      - name: MkDocs gh-deploy
         run: |
-          python3 -m mkdocs gh-deploy
+          mkdocs gh-deploy
 
   build:
     runs-on: ubuntu-latest
-    needs: [get-version-pep440, check-mkdocs_gh_dploy]
+    needs: [get-version-pep440, check-mkdocs]
     if: needs.get-version-pep440.outputs.version != ''
     steps:
       - name: Checkout
