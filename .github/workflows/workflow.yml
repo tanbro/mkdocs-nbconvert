@@ -44,12 +44,10 @@ jobs:
       - name: Check with ruff
         run: |
           python -m ruff check .
-      - name: MkDocs gh-deploy --force
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        env:
-          CONFIG_FILE: mkdocs.yml
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: MkDocs gh-deploy
+        run: |
+          git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
+          python -m mkdocs gh-deploy
 
   build:
     runs-on: ubuntu-latest
