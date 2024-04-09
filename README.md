@@ -2,6 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/mkdocs-nbconvert.svg)](https://pypi.org/project/mkdocs-nbconvert/)
 [![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/tanbro/mkdocs-nbconvert)](https://github.com/tanbro/mkdocs-nbconvert)
+[![workflow](https://github.com/tanbro/mkdocs-nbconvert/actions/workflows/workflow.yml/badge.svg)](https://github.com/tanbro/mkdocs-nbconvert/actions/workflows/workflow.yml)
 
 A [MkDocs][] plug-in provides a source parser for `*.ipynb` [Jupyter][] Notebook files, base on [nbconvert][].
 
