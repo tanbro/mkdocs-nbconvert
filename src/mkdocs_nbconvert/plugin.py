@@ -111,6 +111,7 @@ class NbConvertPlugin(BasePlugin[_PluginConfig]):
             with open(md_path, "w", encoding="utf-8") as fp:
                 fp.write(body)
             for resource_name, resource_data in resources["outputs"].items():
+                assert file_obj.abs_src_path is not None
                 resource_src_dir = path.dirname(file_obj.abs_src_path)
                 resource_src_path = path.join(resource_src_dir, resource_name)
                 makedirs(resource_src_dir, exist_ok=True)

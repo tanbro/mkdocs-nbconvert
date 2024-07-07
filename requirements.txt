@@ -15,6 +15,6 @@ requests
 
 # CI tools
 build
-setuptools_scm
 pre-commit
 ruff
+mypy
