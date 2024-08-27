@@ -1,6 +1,8 @@
 # The file defines requirements for the project's local development.
 # It's NOT package install dependencies.
 
+-e .
+
 # material theme and markdown extensions
 mkdocs-material
 pymdown-extensions
