@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: check-case-conflict
       - id: check-added-large-files
@@ -19,7 +19,7 @@ repos:
       - id: check-docstring-first
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.5.1
+    rev: v0.7.0
     hooks:
       - id: ruff
         types_or: [python, pyi, jupyter]
@@ -32,8 +32,14 @@ repos:
     hooks:
       - id: nbstripout
 
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.12.1
+    hooks:
+      - id: mypy
+        args: [--config-file, .mypy.ini, --ignore-missing-imports]
+
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: "0.29.2"
+    rev: "0.29.4"
     hooks:
       - id: check-github-workflows
       - id: check-readthedocs
