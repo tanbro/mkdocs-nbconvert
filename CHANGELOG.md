@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v0.3.1
+
+> 📅 **Date** 2025-1-16
+
+- 🔧 Upgrade:
+    - `mkdocs` to 1.6.1
+    - `nbconvert` to 7.16.5
+    - hooks in pre-commit
+
+- 🔨: Remove unused packages in `requirements.txt` and `pyproject.toml`
+
 ## v0.3
 
 > 📅 **Date** 2024-4-7
