@@ -30,13 +30,6 @@ classifiers = [
   "Topic :: Documentation",
   "Intended Audience :: Developers",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
 ]
 dynamic = ["version"]
 
@@ -57,8 +50,3 @@ where = ["src"]
 
 [tool.setuptools_scm]
 write_to = "src/mkdocs_nbconvert/_version.py"
-
-[tool.black]
-line-length = 128
-[tool.isort]
-profile = "black"
