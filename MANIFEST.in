@@ -1,5 +1,6 @@
 exclude .*
 exclude mkdocs.yml
+exclude requirements.txt
 exclude *.requirements.txt
 exclude codecov.yml
 
