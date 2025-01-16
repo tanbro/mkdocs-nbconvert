@@ -16,7 +16,4 @@ matplotlib
 requests
 
 # CI tools
-build
 pre-commit
-ruff
-mypy
