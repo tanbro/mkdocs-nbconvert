@@ -1,10 +1,9 @@
 exclude .*
 exclude mkdocs.yml
 exclude requirements.txt
-exclude *.requirements.txt
-exclude codecov.yml
 
 prune .*
 prune docs
 prune notebooks
+prune site
 prune static
