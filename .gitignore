@@ -925,3 +925,7 @@ Backup of *.doc*
 
 # LibreOffice locks
 .~lock.*#
+
+
+
+*.lock
