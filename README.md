@@ -15,10 +15,10 @@ A [MkDocs][] plugin provides a source parser for `*.ipynb` [Jupyter][] Notebook 
 
 The project's documentation site serves as a demo of how to use it.
 
-To build and serve the documentation site:
+To build and serve the doc-site, run the following command in on a virtual environment:
 
 ```bash
-pip install -r requirements.txt
+pip install -e . --group dev
 mkdocs serve
 ```
 
