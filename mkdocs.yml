@@ -19,6 +19,7 @@ plugins:
       input_dir: notebooks
       output_dir: notebooks
       execute_enabled: true
+      max_workers: 2
       execute_options:
         write_back: false
         exit_on_error: true
