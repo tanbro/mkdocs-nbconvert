@@ -1,9 +1,15 @@
+from __future__ import annotations
+
 import asyncio
 import sys
 from glob import iglob
 from os import makedirs, path, remove, removedirs
 from pprint import pformat
 from time import time
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing_extensions import override
 
 import nbformat
 from mkdocs.config import base, config_options
@@ -15,6 +21,11 @@ from nbconvert.preprocessors import (  # pyright: ignore[reportPrivateImportUsag
     CellExecutionError,
     ExecutePreprocessor,
 )
+
+if TYPE_CHECKING:
+    from mkdocs.config.defaults import MkDocsConfig
+    from mkdocs.structure.files import Files
+
 
 __all__ = ["NbConvertPlugin"]
 
@@ -36,7 +47,8 @@ class _PluginConfig(base.Config):
 
 
 class NbConvertPlugin(BasePlugin[_PluginConfig]):
-    def on_files(self, files, config, **kwargs):
+    @override
+    def on_files(self, files: Files, /, *, config: MkDocsConfig) -> Files:
         log.debug("[NbConvertPlugin] config: %s", pformat(self.config))
         self._src_files = []
         # deal with dirs
@@ -82,6 +94,7 @@ class NbConvertPlugin(BasePlugin[_PluginConfig]):
                 dest_dir=config["site_dir"],
                 use_directory_urls=config["use_directory_urls"],
             )
+            assert file_obj.abs_src_path is not None
             #
             log.info("[NbConvertPlugin] (%d) %r => %r", i, nb_path, file_obj)
             # read out
@@ -115,7 +128,6 @@ class NbConvertPlugin(BasePlugin[_PluginConfig]):
             with open(md_path, "w", encoding="utf-8") as fp:
                 fp.write(body)
             for resource_name, resource_data in resources["outputs"].items():
-                assert file_obj.abs_src_path is not None
                 resource_src_dir = path.dirname(file_obj.abs_src_path)
                 resource_src_path = path.join(resource_src_dir, resource_name)
                 makedirs(resource_src_dir, exist_ok=True)
@@ -139,7 +151,8 @@ class NbConvertPlugin(BasePlugin[_PluginConfig]):
             files.append(file_obj)
         return files
 
-    def on_post_build(self, config, **kwargs):
+    @override
+    def on_post_build(self, *, config: MkDocsConfig):
         for file in self._src_files:
             log.debug("[NbConvertPlugin] remove: %r", file)
             remove(file)

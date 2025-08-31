@@ -35,7 +35,7 @@ dynamic = ["version"]
 requires-python = ">=3.8"
 
 # requires
-dependencies = ["mkdocs>=1.4", "nbconvert>=4.2"]
+dependencies = ["mkdocs>=1.6", "nbconvert>=4.2"]
 
 # Project links
 [project.urls]
@@ -48,6 +48,9 @@ nbconvert = "mkdocs_nbconvert:NbConvertPlugin"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"mkdocs_nbconvert" = ["mkdocs_nbconvert/py.typed"]
 
 [tool.setuptools_scm]
 write_to = "src/mkdocs_nbconvert/_version.py"
