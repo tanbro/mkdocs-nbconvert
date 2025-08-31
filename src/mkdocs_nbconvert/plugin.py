@@ -8,8 +8,10 @@ from pprint import pformat
 from time import time
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
+if sys.version_info < (3, 12):  # pragma: no cover
     from typing_extensions import override
+else:  # pragma: no cover
+    from typing import override
 
 import nbformat
 from mkdocs.config import base, config_options
