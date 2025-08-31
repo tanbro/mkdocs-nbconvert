@@ -9,7 +9,7 @@ from multiprocessing import cpu_count
 from os import makedirs, path, remove, removedirs
 from pprint import pformat
 from time import time
-from typing import TYPE_CHECKING
+from typing import Any, Dict, List, Optional, Tuple
 
 if sys.version_info < (3, 12):  # pragma: no cover
     from typing_extensions import override
@@ -18,19 +18,12 @@ else:  # pragma: no cover
 
 import nbformat
 from mkdocs.config import base, config_options
+from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.plugins import BasePlugin
-from mkdocs.structure.files import File
+from mkdocs.structure.files import File, Files
 from mkdocs.utils import log
 from nbconvert import MarkdownExporter
-from nbconvert.preprocessors import (  # pyright: ignore[reportPrivateImportUsage]
-    CellExecutionError,
-    ExecutePreprocessor,
-)
-
-if TYPE_CHECKING:
-    from mkdocs.config.defaults import MkDocsConfig
-    from mkdocs.structure.files import Files
-
+from nbconvert.preprocessors import CellExecutionError, ExecutePreprocessor
 
 __all__ = ["NbConvertPlugin"]
 
@@ -53,14 +46,22 @@ class _PluginConfig(base.Config):
     max_workers = config_options.Type(int, default=cpu_count())
 
 
-def _convert_notebook(nb_path, docs_dir, site_dir, use_directory_urls, input_dir, output_dir, execute_options):
+def _convert(
+    in_file: str,
+    docs_dir: str,
+    site_dir: str,
+    use_directory_urls: bool,
+    input_dir: str,
+    output_dir: str,
+    execute_options: Optional[Dict[str, Any]],
+) -> Tuple[File, List[str]]:
     """
     Standalone function to convert notebook in a separate thread
     """
     execute_options = execute_options or {}
 
     # Prepare output file/directory
-    nb_dirname, nb_basename = path.split(nb_path)
+    nb_dirname, nb_basename = path.split(in_file)
     nb_basename_root, _ = path.splitext(nb_basename)
     nb_subdir = path.relpath(nb_dirname, input_dir)
     md_dir = path.join(output_dir, nb_subdir)
@@ -79,15 +80,15 @@ def _convert_notebook(nb_path, docs_dir, site_dir, use_directory_urls, input_dir
     assert file_obj.abs_src_path is not None
     src_files = [file_obj.abs_src_path]
 
-    log.info("[NbConvertPlugin] %r => %r", nb_path, file_obj)
+    log.info("[NbConvertPlugin] %r => %r", in_file, file_obj)
 
     # Read notebook
-    with open(nb_path, encoding="utf-8") as fp:
+    with open(in_file, encoding="utf-8") as fp:
         nb = nbformat.read(fp, nbformat.NO_CONVERT)
 
     # Pre-execute
     if execute_options is not None:
-        log.debug("[NbConvertPlugin] notebook execution start: %s", nb_path)
+        log.debug("[NbConvertPlugin] notebook execution start: %s", in_file)
         ts = time()
         exe_completed = False
         exe_opts = {k: v for k, v in execute_options.items() if k in ("timeout", "kernel_name") and v is not None}
@@ -100,14 +101,14 @@ def _convert_notebook(nb_path, docs_dir, site_dir, use_directory_urls, input_dir
             if exe_exit_on_error:
                 raise
             exe_completed = True
-            log.error("[NbConvertPlugin] notebook execution error(%.3fs): %s: %s", time() - ts, err, nb_path)
+            log.error("[NbConvertPlugin] notebook execution error(%.3fs): %s: %s", time() - ts, err, in_file)
         else:
             exe_completed = True
-            log.debug("[NbConvertPlugin] notebook execution finish(%.3fs): %s", time() - ts, nb_path)
+            log.debug("[NbConvertPlugin] notebook execution finish(%.3fs): %s", time() - ts, in_file)
         finally:
             if exe_save and exe_completed:
-                log.debug("[NbConvertPlugin] save notebook: %s", nb_path)
-                with open(nb_path, "w", encoding="utf-8") as fp:
+                log.debug("[NbConvertPlugin] save notebook: %s", in_file)
+                with open(in_file, "w", encoding="utf-8") as fp:
                     nbformat.write(nb, fp)
 
     # Convert
@@ -174,7 +175,7 @@ class NbConvertPlugin(BasePlugin[_PluginConfig]):
         # Use max_workers parameter to control concurrency, default to CPU count
         with ThreadPoolExecutor(max_workers=self.config["max_workers"]) as pool:
             results = pool.map(
-                _convert_notebook,
+                _convert,
                 nb_finder,
                 repeat(config["docs_dir"]),
                 repeat(config["site_dir"]),
