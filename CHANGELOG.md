@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.4
+
+> 📅 **Date** 2025-08-31
+
+- ✨ **New Features:**
+    - Now the plugin will call `nbconvert` to execute notebooks in a poll executor, and the number of currency is `cpu_count` by default. A new configuration `max_workers` is added to control the number of currency.
+
+- 💔 **Breaking Changes:**
+    - update `mkdocs` version to `1.6`
+
 ## v0.3.1
 
 > 📅 **Date** 2025-1-16
