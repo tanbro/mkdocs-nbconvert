@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import asyncio
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from glob import iglob
+from itertools import repeat
+from multiprocessing import cpu_count
 from os import makedirs, path, remove, removedirs
 from pprint import pformat
 from time import time
@@ -46,6 +49,96 @@ class _PluginConfig(base.Config):
     recursive = config_options.Type(bool, default=True)
     execute_enabled = config_options.Type(bool, default=False)
     execute_options = config_options.SubConfig(_ExecuteOptions)
+    # Add concurrency control parameter, default to CPU count
+    max_workers = config_options.Type(int, default=cpu_count())
+
+
+def _convert_notebook(nb_path, docs_dir, site_dir, use_directory_urls, input_dir, output_dir, execute_options):
+    """
+    Standalone function to convert notebook in a separate thread
+    """
+    execute_options = execute_options or {}
+
+    # Prepare output file/directory
+    nb_dirname, nb_basename = path.split(nb_path)
+    nb_basename_root, _ = path.splitext(nb_basename)
+    nb_subdir = path.relpath(nb_dirname, input_dir)
+    md_dir = path.join(output_dir, nb_subdir)
+    md_basename = f"{nb_basename_root}.md"
+    md_path = path.join(md_dir, md_basename)
+    md_rel_dir = path.relpath(md_dir, docs_dir)
+    md_rel_path = path.join(md_rel_dir, md_basename)
+
+    file_obj = File(
+        path=md_rel_path,
+        src_dir=docs_dir,
+        dest_dir=site_dir,
+        use_directory_urls=use_directory_urls,
+    )
+
+    assert file_obj.abs_src_path is not None
+    src_files = [file_obj.abs_src_path]
+
+    log.info("[NbConvertPlugin] %r => %r", nb_path, file_obj)
+
+    # Read notebook
+    with open(nb_path, encoding="utf-8") as fp:
+        nb = nbformat.read(fp, nbformat.NO_CONVERT)
+
+    # Pre-execute
+    if execute_options is not None:
+        log.debug("[NbConvertPlugin] notebook execution start: %s", nb_path)
+        ts = time()
+        exe_completed = False
+        exe_opts = {k: v for k, v in execute_options.items() if k in ("timeout", "kernel_name") and v is not None}
+        exe_path, exe_save, exe_exit_on_error = (execute_options.get(a) for a in ("run_path", "write_back", "exit_on_error"))
+
+        ep = ExecutePreprocessor(**exe_opts)
+        try:
+            ep.preprocess(nb, {"metadata": {"path": exe_path if exe_path else input_dir}})
+        except CellExecutionError as err:
+            if exe_exit_on_error:
+                raise
+            exe_completed = True
+            log.error("[NbConvertPlugin] notebook execution error(%.3fs): %s: %s", time() - ts, err, nb_path)
+        else:
+            exe_completed = True
+            log.debug("[NbConvertPlugin] notebook execution finish(%.3fs): %s", time() - ts, nb_path)
+        finally:
+            if exe_save and exe_completed:
+                log.debug("[NbConvertPlugin] save notebook: %s", nb_path)
+                with open(nb_path, "w", encoding="utf-8") as fp:
+                    nbformat.write(nb, fp)
+
+    # Convert
+    exporter = MarkdownExporter()
+    body, resources = exporter.from_notebook_node(nb)
+
+    # Save exported file
+    makedirs(md_dir, exist_ok=True)
+    with open(md_path, "w", encoding="utf-8") as fp:
+        fp.write(body)
+
+    for resource_name, resource_data in resources["outputs"].items():
+        resource_src_dir = path.dirname(file_obj.abs_src_path)
+        resource_src_path = path.join(resource_src_dir, resource_name)
+        makedirs(resource_src_dir, exist_ok=True)
+        with open(resource_src_path, "wb") as fp:
+            fp.write(resource_data)
+        src_files.append(resource_src_path)
+        resource_dest_dir = path.dirname(file_obj.abs_dest_path)
+        resource_dest_path = path.join(resource_dest_dir, resource_name)
+        log.debug(
+            "[NbConvertPlugin] resource output(%dBytes): %s => %s",
+            len(resource_data),
+            resource_name,
+            resource_dest_path,
+        )
+        makedirs(resource_dest_dir, exist_ok=True)
+        with open(resource_dest_path, "wb") as fp:
+            fp.write(resource_data)
+
+    return file_obj, src_files
 
 
 class NbConvertPlugin(BasePlugin[_PluginConfig]):
@@ -61,14 +154,11 @@ class NbConvertPlugin(BasePlugin[_PluginConfig]):
             input_dir = path.realpath(path.join(config_file_dir, input_dir))
         # glob match
         nb_finder = iglob(path.join(config_file_dir, input_dir, "**", "*.ipynb"), recursive=self.config["recursive"])
-        # Exporter
-        exporter = MarkdownExporter()
+
         # Pre-execute args
-        exe_opts = exe_path = exe_save = exe_exit_on_error = None
+        execute_options = None
         if self.config.get("execute_enabled"):
-            _opts = self.config.get("execute_options") or {}
-            exe_opts = {k: v for k, v in _opts.items() if k in ("timeout", "kernel_name") and v is not None}
-            exe_path, exe_save, exe_exit_on_error = (_opts.get(a) for a in ("run_path", "write_back", "exit_on_error"))
+            execute_options = self.config.get("execute_options") or {}
 
             # On windows:
             #   Proactor event loop does not implement add_reader family of methods required for zmq.
@@ -79,78 +169,26 @@ class NbConvertPlugin(BasePlugin[_PluginConfig]):
 
                 asyncio.set_event_loop_policy(windows_events.WindowsSelectorEventLoopPolicy())
 
-        # Converting
-        for i, nb_path in enumerate(nb_finder, 1):
-            # Prepare output file/dir
-            nb_dirname, nb_basename = path.split(nb_path)
-            nb_basename_root, _ = path.splitext(nb_basename)
-            nb_subdir = path.relpath(nb_dirname, input_dir)
-            md_dir = path.join(output_dir, nb_subdir)
-            md_basename = f"{nb_basename_root}.md"
-            md_path = path.join(md_dir, md_basename)
-            md_rel_dir = path.relpath(md_dir, config["docs_dir"])
-            md_rel_path = path.join(md_rel_dir, md_basename)
-            file_obj = File(
-                path=md_rel_path,
-                src_dir=config["docs_dir"],
-                dest_dir=config["site_dir"],
-                use_directory_urls=config["use_directory_urls"],
+        # Use ThreadPoolExecutor to process notebooks in parallel
+        # nbconvert will start separate processes when executing notebooks, so using thread pool is more appropriate
+        # Use max_workers parameter to control concurrency, default to CPU count
+        with ThreadPoolExecutor(max_workers=self.config["max_workers"]) as pool:
+            results = pool.map(
+                _convert_notebook,
+                nb_finder,
+                repeat(config["docs_dir"]),
+                repeat(config["site_dir"]),
+                repeat(config["use_directory_urls"]),
+                repeat(input_dir),
+                repeat(output_dir),
+                repeat(execute_options),
             )
-            assert file_obj.abs_src_path is not None
-            #
-            log.info("[NbConvertPlugin] (%d) %r => %r", i, nb_path, file_obj)
-            # read out
-            with open(nb_path, encoding="utf-8") as fp:
-                nb = nbformat.read(fp, nbformat.NO_CONVERT)
-            # pre-execute
-            if exe_opts is not None:
-                log.debug("[NbConvertPlugin] (%d) notebook execution start", i)
-                ts = time()
-                exe_completed = False
-                ep = ExecutePreprocessor(**exe_opts)
-                try:
-                    ep.preprocess(nb, {"metadata": {"path": exe_path if exe_path else input_dir}})
-                except CellExecutionError as err:
-                    if exe_exit_on_error:
-                        raise
-                    exe_completed = True
-                    log.error("[NbConvertPlugin] (%d) notebook execution error(%.3fs): %s", i, time() - ts, err)
-                else:
-                    exe_completed = True
-                    log.debug("[NbConvertPlugin] (%d) notebook execution finish(%.3fs)", i, time() - ts)
-                finally:
-                    if exe_save and exe_completed:
-                        log.debug("[NbConvertPlugin] (%d) save notebook", i)
-                        with open(nb_path, "w", encoding="utf-8") as fp:
-                            nbformat.write(nb, fp)
-            # convert
-            body, resources = exporter.from_notebook_node(nb)
-            # save exported
-            makedirs(md_dir, exist_ok=True)
-            with open(md_path, "w", encoding="utf-8") as fp:
-                fp.write(body)
-            for resource_name, resource_data in resources["outputs"].items():
-                resource_src_dir = path.dirname(file_obj.abs_src_path)
-                resource_src_path = path.join(resource_src_dir, resource_name)
-                makedirs(resource_src_dir, exist_ok=True)
-                with open(resource_src_path, "wb") as fp:
-                    fp.write(resource_data)
-                self._src_files.append(resource_src_path)
-                resource_dest_dir = path.dirname(file_obj.abs_dest_path)
-                resource_dest_path = path.join(resource_dest_dir, resource_name)
-                log.debug(
-                    "[NbConvertPlugin] (%d) resource output(%dBytes): %s => %s",
-                    i,
-                    len(resource_data),
-                    resource_name,
-                    resource_dest_path,
-                )
-                makedirs(resource_dest_dir, exist_ok=True)
-                with open(resource_dest_path, "wb") as fp:
-                    fp.write(resource_data)
 
-            self._src_files.append(file_obj.abs_src_path)
-            files.append(file_obj)
+            # Collect results
+            for file_obj, src_files in results:
+                self._src_files.extend(src_files)
+                files.append(file_obj)
+
         return files
 
     @override
