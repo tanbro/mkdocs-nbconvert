@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v0.5
+
+> 📅 **Date** 2025-10-10
+
+- 🛠️ **Compatibility Improvements:**
+    - Updated Windows event loop policy handling for Python 3.14+ compatibility
+    - Fixed deprecation warnings when appending files to MkDocs Files collection
+    - Added proper warning handling for WindowsSelectorEventLoopPolicy deprecation
+
+- ⚙️ **Project Structure:**
+    - Migrated dependency management from requirements.txt to pyproject.toml with dependency-groups
+    - Completely removed requirements.txt in favor of modern Python packaging
+    - Updated project configuration to use modern setuptools and dependency groups
+
+- 📝 **Documentation:**
+    - Expanded README.md with comprehensive usage instructions
+    - Added detailed CONTRIBUTING.md guidelines
+
 ## v0.4
 
 > 📅 **Date** 2025-08-31
