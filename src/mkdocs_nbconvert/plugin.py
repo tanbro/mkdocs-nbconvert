@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import asyncio
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from glob import iglob
@@ -165,10 +164,13 @@ class NbConvertPlugin(BasePlugin[_PluginConfig]):
             #   Proactor event loop does not implement add_reader family of methods required for zmq.
             #   Registering an additional selector thread for add_reader support via tornado.
             #   Use `asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())` to avoid this warning.
-            if sys.platform == "win32":
-                from asyncio import windows_events
+            if sys.version_info < (3, 16) and sys.platform == "win32":  # pragma: no cover
+                import asyncio
+                import warnings
 
-                asyncio.set_event_loop_policy(windows_events.WindowsSelectorEventLoopPolicy())
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())  # type: ignore
 
         # Use ThreadPoolExecutor to process notebooks in parallel
         # nbconvert will start separate processes when executing notebooks, so using thread pool is more appropriate
@@ -188,6 +190,9 @@ class NbConvertPlugin(BasePlugin[_PluginConfig]):
             # Collect results
             for file_obj, src_files in results:
                 self._src_files.extend(src_files)
+                # To replace an existing file, call `remove` before `append`.
+                if file_obj.src_uri in files:
+                    files.remove(file_obj)
                 files.append(file_obj)
 
         return files

@@ -12,6 +12,8 @@ nav:
       - notebooks/matplotlib.md
   - authors.md
   - changelog.md
+  - contributing.md
+  - license.md
 
 plugins:
   - search
