@@ -58,3 +58,16 @@ where = ["src"]
 
 [tool.setuptools_scm]
 write_to = "src/mkdocs_nbconvert/_version.py"
+
+[dependency-groups]
+docs = [
+  # material theme and markdown extensions
+  'mkdocs-material',
+  'pymdown-extensions',
+  # jupyter
+  'jupyter',
+  # requirements to run the notebook
+  'pygments',
+  'matplotlib',
+  'requests',
+]
